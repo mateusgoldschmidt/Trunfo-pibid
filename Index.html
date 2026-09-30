@@ -1,0 +1,1206 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1a3a4b">
+  <title>Super Trunfo Matemático: Missões & Fronteira Noroeste</title>
+  <style>
+    :root {
+      --primary: #1a3a4b;
+      --primary-light: #2c586f;
+      --accent: #2e7d32;
+      --border: #b0bec5;
+      --text: #1e293b;
+      --muted: #64748b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #e2e8f0;
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.3;
+    }
+
+    .shell {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header.screen-only {
+      background: var(--primary);
+      color: white;
+      padding: 16px 22px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    header h1 { margin: 0; font-size: 1.45rem; }
+    header p { margin: 4px 0 0; font-size: 0.86rem; opacity: 0.9; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 18px;
+    }
+
+    .controls {
+      position: sticky;
+      top: 16px;
+    }
+
+    .controls h2 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .filter-tab {
+      flex: 1;
+      padding: 6px 2px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: #f1f5f9;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .filter-tab.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    .selection-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .selection-row button {
+      background: none;
+      border: none;
+      color: var(--primary-light);
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0 2px;
+      font-weight: 600;
+    }
+
+    .town-list {
+      max-height: 240px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fafafa;
+    }
+
+    .town-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 8px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.82rem;
+    }
+
+    .tag-mini {
+      margin-left: auto;
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    .tag-missoes { background: #ffebee; color: #b71c1c; }
+    .tag-fronteira { background: #e3f2fd; color: #0d47a1; }
+
+    .action-buttons {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border: none;
+      cursor: pointer;
+      transition: filter 0.15s;
+    }
+    .btn:hover { filter: brightness(1.08); }
+    .btn-student { background: var(--primary); color: white; }
+    .btn-key { background: var(--accent); color: white; }
+
+    /* Grid das Cartas */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: white;
+      border: 1.5px solid #94a3b8;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+    }
+
+    .card-header {
+      background: var(--primary);
+      color: white;
+      padding: 5px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-id {
+      font-size: 0.75rem;
+      font-weight: 800;
+      background: rgba(255,255,255,0.25);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .card-region {
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .photo-container {
+      position: relative;
+      width: 100%;
+      height: 80px;
+      background: #cbd5e1;
+      overflow: hidden;
+      border-bottom: 2px solid var(--primary-light);
+    }
+
+    .card-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #f1f5f9;
+      display: block;
+    }
+
+    .photo-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.85);
+      color: #f8fafc;
+      font-size: 0.62rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-title {
+      margin: 5px 8px 1px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.1;
+    }
+
+    /* Legenda cultural do ponto turístico */
+    .card-desc {
+      margin: 0 8px 4px;
+      font-size: 0.66rem;
+      line-height: 1.25;
+      color: #334155;
+      background: #f8fafc;
+      border-left: 2px solid var(--primary-light);
+      padding: 2px 5px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .card-base-data {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 8px 4px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.67rem;
+      color: var(--muted);
+    }
+
+    .card-base-data strong {
+      color: var(--text);
+      display: block;
+      font-size: 0.74rem;
+    }
+
+    .param-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 0 8px 5px;
+      flex: 1;
+    }
+
+    .param-box {
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      padding: 3px 6px;
+      background: #f8fafc;
+    }
+
+    .param-title {
+      font-size: 0.63rem;
+      font-weight: 750;
+      color: #334155;
+    }
+
+    .param-math {
+      margin-top: 1px;
+      font-size: 0.65rem;
+      color: #0f172a;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .blank-box {
+      display: inline-block;
+      width: 36px;
+      border-bottom: 1.5px solid #0f172a;
+      vertical-align: bottom;
+      margin: 0 2px;
+    }
+
+    .solved-val {
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .card-footer {
+      background: #f1f5f9;
+      border-top: 1px dashed var(--border);
+      padding: 3px 6px;
+      font-size: 0.54rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .controls { position: static; }
+    }
+
+    /* Impressão em A4: 3 colunas x 3 linhas = 9 cartas por folha */
+    @page {
+      size: A4 portrait;
+      margin: 7mm 5mm;
+    }
+
+    @media print {
+      html, body {
+        background: white !important;
+        color: black !important;
+      }
+      .screen-only, .controls { display: none !important; }
+      .layout { display: block; }
+      .shell { padding: 0; max-width: none; }
+
+      .cards-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 62mm);
+        grid-auto-rows: 88mm;
+        gap: 2.5mm;
+        justify-content: center;
+        align-content: start;
+      }
+
+      .card {
+        width: 62mm;
+        height: 88mm;
+        border: 0.35mm solid #334155;
+        border-radius: 2mm;
+        box-shadow: none;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .card-header { padding: 0.8mm 1.8mm; }
+      .card-id { font-size: 5.5pt; }
+      .card-region { font-size: 4.8pt; }
+      
+      .photo-container { height: 15mm; }
+      .photo-caption { font-size: 4.6pt; padding: 0.4mm 1.2mm; }
+      
+      .card-title { margin: 0.8mm 1.8mm 0.2mm; font-size: 8.8pt; }
+      
+      .card-desc { 
+        margin: 0 1.8mm 0.6mm; 
+        font-size: 4.5pt; 
+        line-height: 1.15; 
+        padding: 0.4mm 1mm;
+        max-height: 8.5mm;
+        overflow: hidden;
+      }
+
+      .card-base-data { 
+        margin: 0 1.8mm 0.6mm; 
+        padding-bottom: 0.5mm; 
+        font-size: 5.2pt; 
+      }
+      .card-base-data strong { font-size: 5.8pt; }
+      
+      .param-list { gap: 0.5mm; padding: 0 1.5mm 0.6mm; }
+      .param-box { padding: 0.5mm 1mm; border-radius: 0.6mm; }
+      .param-title { font-size: 4.9pt; }
+      .param-math { margin-top: 0.1mm; font-size: 5pt; }
+      .blank-box { width: 8mm; border-bottom-width: 0.3mm; }
+      
+      .card-footer { padding: 0.6mm 1mm; font-size: 4.4pt; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="screen-only">
+      <h1>Super Trunfo Matemático: Missões & Fronteira Noroeste</h1>
+      <p>45 municípios gaúchos · Fotos reais do patrimônio local com descrições históricas e culturais · Arredondamento didático para o 6º ano</p>
+    </header>
+
+    <div class="layout">
+      <!-- Painel de Controles -->
+      <aside class="panel controls screen-only">
+        <h2>Filtros do Baralho</h2>
+
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">Todos (45)</button>
+          <button class="filter-tab" data-filter="Missões">Missões (25)</button>
+          <button class="filter-tab" data-filter="Fronteira Noroeste">Fronteira (20)</button>
+        </div>
+
+        <input type="search" class="search-box" id="searchInput" placeholder="Buscar município ou atrativo...">
+
+        <div class="selection-row">
+          <span id="selectedCountText">45 selecionados</span>
+          <div>
+            <button id="btnSelectAll">Todos</button> |
+            <button id="btnClearAll">Nenhum</button>
+          </div>
+        </div>
+
+        <div class="town-list" id="townList"></div>
+
+        <div class="action-buttons">
+          <button class="btn btn-student" id="btnPrintStudents">🖨️ Imprimir Cartas dos Alunos</button>
+          <button class="btn btn-key" id="btnPrintKey">👨‍🏫 Imprimir Gabarito do Professor</button>
+        </div>
+      </aside>
+
+      <!-- Grade das Cartas -->
+      <main class="right-column">
+        <div class="cards-grid" id="cardsGrid"></div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Gerador de banner SVG caso a imagem externa falhe ou esteja offline
+    function makeFallbackSvg(nome, atrativo, regiao) {
+      const c1 = regiao === "Missões" ? "#7f1d1d" : "#1e3a8a";
+      const c2 = regiao === "Missões" ? "#991b1b" : "#2563eb";
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="150" viewBox="0 0 400 150">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs>
+        <rect width="100%" height="100%" fill="url(#g)"/>
+        <text x="200" y="65" font-family="sans-serif" font-size="28" fill="#ffffff" text-anchor="middle">📍</text>
+        <text x="200" y="100" font-family="sans-serif" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">${nome}</text>
+        <text x="200" y="122" font-family="sans-serif" font-size="11" fill="rgba(255,255,255,0.85)" text-anchor="middle">${atrativo}</text>
+      </svg>`;
+      return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+    }
+
+    // 45 MUNICÍPIOS COM ATRATIVOS, IMAGENS E LEGENDAS HISTÓRICO-CULTURAIS
+    const MUNICIPIOS = [
+      {
+        id: 4302501,
+        nome: "Bossoroca",
+        regiao: "Missões",
+        pop: 5890,
+        area: 1610,
+        urbPct: 58,
+        idosoPct: 26,
+        atrativo: "Cerro da Bela Vista",
+        img: "https://www.caminhodasorigens.com.br/wp-content/uploads/2020/11/S55_3749-scaled.jpg",
+        legenda: "O Cerro da Bela Vista fica no interior de Bossoroca, associado a uma antiga rota de tropeiros e carreteiros que ligava a fronteira com a Argentina ao Boqueirão de La Sierra."
+      },
+      {
+        id: 4303301,
+        nome: "Caibaté",
+        regiao: "Missões",
+        pop: 4704,
+        area: 261,
+        urbPct: 66,
+        idosoPct: 26,
+        atrativo: "Santuário do Caaró",
+        img: "https://upload.wikimedia.org/wikipedia/commons/5/50/Santu%C3%A1rio_de_Caar%C3%B3_01.jpg",
+        legenda: "O Santuário do Caaró fica junto ao trevo de acesso pela BR-285, identificado pela história missioneira como o local do martírio do padre Roque Gonzales."
+      },
+      {
+        id: 4305207,
+        nome: "Cerro Largo",
+        regiao: "Missões",
+        pop: 13705,
+        area: 177,
+        urbPct: 82,
+        idosoPct: 23,
+        atrativo: "Igreja Matriz Sagrada Família de Nazaré",
+        img: "https://sp1-object.adentro.com.br/sites/740/PontosTuristicos/42/u0hw3t3g9cq4eea8rjch_WhatsAppImage2023-03-22at15.40.21.jpeg",
+        legenda: "Projetada em linhas neogóticas, a imponente Igreja Matriz teve sua construção iniciada em 1913 e foi solenemente inaugurada em 1921."
+      },
+      {
+        id: 4306353,
+        nome: "Dezesseis de Novembro",
+        regiao: "Missões",
+        pop: 2507,
+        area: 217,
+        urbPct: 27,
+        idosoPct: 31,
+        atrativo: "Salto do Pirapó",
+        img: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Max1224269152salto_pirapo1.jpg",
+        legenda: "O Salto do Pirapó é uma impressionante sequência de quedas no Rio Ijuí, servindo de divisa natural entre Dezesseis de Novembro e Roque Gonzales."
+      },
+      {
+        id: 4306932,
+        nome: "Entre-Ijuís",
+        regiao: "Missões",
+        pop: 9158,
+        area: 553,
+        urbPct: 61,
+        idosoPct: 25,
+        atrativo: "Sítio Arqueológico de São João Batista",
+        img: "https://upload.wikimedia.org/wikipedia/commons/3/3f/S%C3%ADtio_Arqueol%C3%B3gico_de_S%C3%A3o_Jo%C3%A3o_Batista_04.jpg",
+        legenda: "Fundado em 1697 pelo padre Antônio Sepp, foi a primeira fundição de ferro do Sul do país e integra o Parque Histórico Nacional das Missões."
+      },
+      {
+        id: 4307831,
+        nome: "Eugênio de Castro",
+        regiao: "Missões",
+        pop: 2633,
+        area: 418,
+        urbPct: 64,
+        idosoPct: 29,
+        atrativo: "Lagoa da Mortandade",
+        img: "https://www.eugeniodecastro.rs.gov.br/admin/globalarq/album/651_366/15cee69205458155dbc014dfd504e749.webp",
+        legenda: "Situada na localidade de Carajazinho e também chamada Lagoa do Chaine, a tradição local preserva relatos históricos ligados à Revolução de 1923."
+      },
+      {
+        id: 4308656,
+        nome: "Garruchos",
+        regiao: "Missões",
+        pop: 2688,
+        area: 804,
+        urbPct: 34,
+        idosoPct: 25,
+        atrativo: "Porto de Garruchos / Rio Uruguai",
+        img: "https://img.youtube.com/vi/Gy2KBZ6y4mc/maxresdefault.jpg",
+        legenda: "Espaço público às margens do Rio Uruguai que marca a fronteira fluvial com a Argentina, central para a pesca e a contemplação do ecossistema ribeirinho."
+      },
+      {
+        id: 4309001,
+        nome: "Giruá",
+        regiao: "Missões",
+        pop: 16013,
+        area: 857,
+        urbPct: 81,
+        idosoPct: 24,
+        atrativo: "Cascata do Passo da Pedra",
+        img: "https://www.portaldasmissoes.com.br/uploads/empreendimentos/1475/0041496_regular_cascata-do-passo-da-pedra-girua-rs-cachoeira-do-passo-da-pedra--fone-prefeitura-girua-(10).jpg",
+        legenda: "Bela queda d'água no Rio Comandaí; inventários turísticos registram que a antiga estrada próxima era utilizada na passagem histórica de tropeiros."
+      },
+      {
+        id: 4309506,
+        nome: "Guarani das Missões",
+        regiao: "Missões",
+        pop: 7415,
+        area: 291,
+        urbPct: 66,
+        idosoPct: 27,
+        atrativo: "Igreja Matriz Santa Tereza d’Ávila",
+        img: "https://www.portaldasmissoes.com.br/uploads/imagens/0000078_regular_portal-das-missoes-igreja-santa-teresa-davila-(65).jpg",
+        legenda: "Símbolo da capital polonesa dos gaúchos, a igreja matriz erguida em 1925 abriga vitrais artísticos de procedência europeia com passagens bíblicas."
+      },
+      {
+        id: 4312179,
+        nome: "Mato Queimado",
+        regiao: "Missões",
+        pop: 1795,
+        area: 115,
+        urbPct: 39,
+        idosoPct: 27,
+        atrativo: "Centro Administrativo Municipal",
+        img: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Prefeitura_Municipal_Mato_Queimado.jpg",
+        legenda: "Sede dos poderes cívicos municipais emoldurada por jardins floridos e arquitetura típica de uma comunidade acolhedora do interior missioneiro."
+      },
+      {
+        id: 4314555,
+        nome: "Pirapó",
+        regiao: "Missões",
+        pop: 2260,
+        area: 294,
+        urbPct: 36,
+        idosoPct: 31,
+        atrativo: "Igreja Matriz de São José",
+        img: "https://www.portaldasmissoes.com.br/uploads/empreendimentos/0000715_regular_igreja-matriz-de-pirapo-01.jpg",
+        legenda: "Inaugurada em 1957 no centro da cidade, destaca-se pelo trabalho arquitetônico do frontispício e pelo colorido de seus vitrais artesanais."
+      },
+      {
+        id: 4315107,
+        nome: "Porto Xavier",
+        regiao: "Missões",
+        pop: 9938,
+        area: 281,
+        urbPct: 62,
+        idosoPct: 22,
+        atrativo: "Mirante do Rio Uruguai",
+        img: "https://www.radiomissioneira.com/wp-content/uploads/2023/03/9a927683-9752-4d68-8643-578a4f473b6c.jpg",
+        legenda: "Localizado junto às barrancas do Rio Uruguai e ao porto internacional de balsas, proporciona ampla vista da travessia para San Javier, na Argentina."
+      },
+      {
+        id: 4315958,
+        nome: "Rolador",
+        regiao: "Missões",
+        pop: 2291,
+        area: 295,
+        urbPct: 32,
+        idosoPct: 31,
+        atrativo: "Casa de Pedra",
+        img: "https://portaldasmissoes.com/uploads/empreendimentos/2076/0116412_regular_casa-de-pedra~3.jpg",
+        legenda: "Construída artesanalmente em 1955 na comunidade de Passo Novo por Brasil da Silva Rios, é um patrimônio singular de alvenaria em pedras naturais."
+      },
+      {
+        id: 4316303,
+        nome: "Roque Gonzales",
+        regiao: "Missões",
+        pop: 6576,
+        area: 349,
+        urbPct: 49,
+        idosoPct: 27,
+        atrativo: "Prainha e Quiosque Pôr do Sol",
+        img: "https://www.radiomissioneira.com/wp-content/uploads/2022/12/WhatsApp-Image-2022-12-03-at-10.56.41.jpeg",
+        legenda: "Espaço de lazer e ecoturismo às margens da represa da Usina Hidrelétrica Passo São João, no Rio Ijuí, consagrado pelo pôr do sol reflexo nas águas."
+      },
+      {
+        id: 4316477,
+        nome: "Salvador das Missões",
+        regiao: "Missões",
+        pop: 2877,
+        area: 94,
+        urbPct: 58,
+        idosoPct: 27,
+        atrativo: "Igreja Matriz Cristo Rei",
+        img: "https://portaldasmissoes.com.br/uploads/empreendimentos/1162/0019926_regular_igreja-matriz--cristo-rei-em-salvador-das-missoes-01.jpg",
+        legenda: "Localizada na Avenida Independência, a igreja exibe rica arte sacra e elementos arquitetônicos que expressam a fé dos colonizadores teuto-brasileiros."
+      },
+      {
+        id: 4317707,
+        nome: "Santo Antônio das Missões",
+        regiao: "Missões",
+        pop: 10300,
+        area: 1711,
+        urbPct: 68,
+        idosoPct: 25,
+        atrativo: "Praça Antônio Vicente do Nascimento",
+        img: "https://portaldasmissoes.com.br/uploads/empreendimentos/0001095_regular_regiao-das-missoes-santo-antonio-das-missoes-praca-central-(1).jpg",
+        legenda: "Coração social e comunitário da cidade de extensos campos criatórios, batizada em memória do pioneiro líder local pela Lei nº 211 de 1983."
+      },
+      {
+        id: 4317509,
+        nome: "Santo Ângelo",
+        regiao: "Missões",
+        pop: 76917,
+        area: 679,
+        urbPct: 95,
+        idosoPct: 20,
+        atrativo: "Catedral Angelopolitana",
+        img: "https://upload.wikimedia.org/wikipedia/commons/9/9b/Catedral_angelopolitana_santo_angelo.jpg",
+        legenda: "Monumento símbolo da região missioneira na Praça Pinheiro Machado, erguida sobre as fundações da antiga redução jesuítica de Santo Ângelo Custódio."
+      },
+      {
+        id: 4320578,
+        nome: "Sete de Setembro",
+        regiao: "Missões",
+        pop: 1830,
+        area: 129,
+        urbPct: 31,
+        idosoPct: 30,
+        atrativo: "Cascata do Rio Comandaí",
+        img: "https://www.portaldasmissoes.com.br/uploads/imagens/0000103_regular_portal-das-missoes-sete-de-setembro-igreja-sao-roque-0).jpg",
+        legenda: "Queda d'água natural que cruza o perímetro de Sete de Setembro, integrando a vegetação nativa à dinâmica da bacia hidrográfica do Comandaí."
+      },
+      {
+        id: 4318903,
+        nome: "São Luiz Gonzaga",
+        regiao: "Missões",
+        pop: 34752,
+        area: 1296,
+        urbPct: 92,
+        idosoPct: 21,
+        atrativo: "Igreja Matriz de São Luiz Gonzaga",
+        img: "https://sp1-object.adentro.com.br/sites/470/Conteudos/820/fpw8668qxc9rh9h3gyyh_Imagem_7_234O..JPG",
+        legenda: "Marco arquitetônico em estilo gótico com torre de 48 metros de altura, guardiã de esculturas sacras missioneiras originais esculpidas em madeira."
+      },
+      {
+        id: 4319158,
+        nome: "São Miguel das Missões",
+        regiao: "Missões",
+        pop: 7056,
+        area: 1228,
+        urbPct: 59,
+        idosoPct: 22,
+        atrativo: "Ruínas de São Miguel Arcanjo",
+        img: "https://upload.wikimedia.org/wikipedia/commons/b/b3/S%C3%ADtio_Arqueol%C3%B3gico_de_S%C3%A3o_Miguel_Arcanjo_%28Ru%C3%ADnas_de_S%C3%A3o_Miguel_das_Miss%C3%B5es%29.jpg",
+        legenda: "Patrimônio Cultural da Humanidade pela UNESCO, monumento representativo da utopia missioneira guarani projetado pelo arquiteto jesuíta Gian Battista Primoli."
+      },
+      {
+        id: 4319208,
+        nome: "São Nicolau",
+        regiao: "Missões",
+        pop: 5118,
+        area: 486,
+        urbPct: 72,
+        idosoPct: 26,
+        atrativo: "Ruínas da Primeira Redução",
+        img: "https://upload.wikimedia.org/wikipedia/commons/1/1d/Ruinas_sao_nicolau1.jpg",
+        legenda: "Fundada em 1626 pelo padre Roque González, abriga remanescentes arqueológicos em pedra de cantaria da redução considerada a 'Primeira Querência do RS'."
+      },
+      {
+        id: 4319307,
+        nome: "São Paulo das Missões",
+        regiao: "Missões",
+        pop: 5846,
+        area: 224,
+        urbPct: 40,
+        idosoPct: 29,
+        atrativo: "Pórtico da Família Agricultora",
+        img: "https://portaldasmissoes.com.br/uploads/empreendimentos/0001215_regular_regiao-das-missoes-sao-paulo-das-missoes-portico-fone-prefeitura-br0318-regiao-missioneira.jpg",
+        legenda: "Monumento pórtico na RS-307 que homenageia o trabalho camponês, retratando uma família rural e simbolizando a agricultura familiar como base local."
+      },
+      {
+        id: 4319372,
+        nome: "São Pedro do Butiá",
+        regiao: "Missões",
+        pop: 3070,
+        area: 108,
+        urbPct: 51,
+        idosoPct: 26,
+        atrativo: "Monumento a São Pedro",
+        img: "https://sp1-object.adentro.com.br/sites/1720/PontosTuristicos/2017680/1c3espr8gztjwzdmko6f_23cba90547b1c344caa2192f043d3364.jpeg",
+        legenda: "Localizado no Centro Germânico Missioneiro, a estátua de São Pedro ergue-se a 30 metros de altura, homenageando a fé e as tradições dos colonizadores alemães."
+      },
+      {
+        id: 4322343,
+        nome: "Ubiretama",
+        regiao: "Missões",
+        pop: 1994,
+        area: 126,
+        urbPct: 27,
+        idosoPct: 27,
+        atrativo: "Cachoeira das Laranjeiras",
+        img: "https://portaldasmissoes.com.br/uploads/empreendimentos/0001112_regular_img_2945.jpg",
+        legenda: "Refúgio de águas límpidas cercado por mata de galeria preservada na localidade de Laranjeira, sendo o principal destino de turismo ecológico do município."
+      },
+      {
+        id: 4323754,
+        nome: "Vitória das Missões",
+        regiao: "Missões",
+        pop: 3260,
+        area: 258,
+        urbPct: 32,
+        idosoPct: 30,
+        atrativo: "Igreja de Barra do Ouro",
+        img: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Foto_Miss%C3%B5es_01.jpg",
+        legenda: "Ponto de fé e integração das festas comunitárias no interior de Vitória das Missões, retratando a vida social e o patrimônio construído das pequenas localidades."
+      },
+      {
+        id: 4317202,
+        nome: "Santa Rosa",
+        regiao: "Fronteira Noroeste",
+        pop: 76963,
+        area: 489,
+        urbPct: 92,
+        idosoPct: 20,
+        atrativo: "Memorial Casa da Xuxa",
+        img: "https://upload.wikimedia.org/wikipedia/commons/f/f5/Museu_Casa_da_Xuxa_-_Santa_Rosa_-_RS_-_Brazil.JPG",
+        legenda: "Imóvel de madeira construído em 1957 onde nasceu e viveu a apresentadora Xuxa Meneghel, restaurado e inaugurado como memorial cultural em 2002."
+      },
+      {
+        id: 4321832,
+        nome: "Três de Maio",
+        regiao: "Fronteira Noroeste",
+        pop: 24916,
+        area: 421,
+        urbPct: 83,
+        idosoPct: 23,
+        atrativo: "Igreja Matriz N. Sra. da Conceição",
+        img: "https://portaldasmissoes.com/uploads/empreendimentos/0002250_regular_paroquia-nossa-senhora-da-conceicao-tres-de-maio-igreja-matriz-igreja-catolica-tre-de-maio-rs-(16).jpg",
+        legenda: "Com sua pedra fundamental lançada em 1934 e inaugurada em 1942, o templo central é um marco histórico do crescimento da 'Cidade Canção'."
+      },
+      {
+        id: 4309605,
+        nome: "Horizontina",
+        regiao: "Fronteira Noroeste",
+        pop: 18851,
+        area: 230,
+        urbPct: 86,
+        idosoPct: 22,
+        atrativo: "Monumento das Colheitadeiras",
+        img: "https://portalfronteiranoroeste.com.br/wp-content/uploads/2025/08/Horizontina-celebra-70-anos-com-inauguracao-de-monumento-e-portal-de-boas-vindas-1.jpg",
+        legenda: "Inaugurado nos 70 anos do município, consagra Horizontina como o Berço Nacional das Colheitadeiras Automotrizes e pioneira da indústria de máquinas agrícolas."
+      },
+      {
+        id: 4317905,
+        nome: "Santo Cristo",
+        regiao: "Fronteira Noroeste",
+        pop: 15320,
+        area: 367,
+        urbPct: 69,
+        idosoPct: 24,
+        atrativo: "Pórtico de Entrada da Cidade",
+        img: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Santo_Cristo_RS.jpg",
+        legenda: "Pórtico monumental que recebe os visitantes na entrada urbana de Santo Cristo, município reconhecido pela intensa bacia leiteira e tradição germânica."
+      },
+      {
+        id: 4322202,
+        nome: "Tuparendi",
+        regiao: "Fronteira Noroeste",
+        pop: 8363,
+        area: 308,
+        urbPct: 71,
+        idosoPct: 26,
+        atrativo: "Gruta N. Sra. de Lourdes em Cinquentenário",
+        img: "https://files.manuscdn.com/search-media/310519663169820208/kfb6MeNtvCWCnreXnPU52u/p4b3KhdovWNwK9ECvn7UxW.jpeg",
+        legenda: "Situada junto à Igreja Nossa Senhora da Saúde na localidade de Cinquentenário, constitui destino de peregrinação religiosa para romeiros de toda a região."
+      },
+      {
+        id: 4302204,
+        nome: "Boa Vista do Buricá",
+        regiao: "Fronteira Noroeste",
+        pop: 6966,
+        area: 110,
+        urbPct: 69,
+        idosoPct: 24,
+        atrativo: "Paróquia São José",
+        img: "https://www.portaldasmissoes.com.br/uploads/empreendimentos/2176/0122775_regular_paroquia-sao-jose--boa-vista-do-burica_-51.jpg",
+        legenda: "Igreja matriz localizada na Avenida São José, marcando o centro urbano originado da frente colonizadora que desbravou o vale do Rio Buricá nos anos 1920."
+      },
+      {
+        id: 4310207,
+        nome: "Independência",
+        regiao: "Fronteira Noroeste",
+        pop: 6427,
+        area: 358,
+        urbPct: 65,
+        idosoPct: 26,
+        atrativo: "Praça Municipal João Saffi",
+        img: "https://portalfronteiranoroeste.com.br/wp-content/uploads/2024/01/Praca-Joao-Saffi-em-independencia-3-scaled.jpg",
+        legenda: "Espaço de lazer e convivência arborizado no centro de Independência, vizinho à Igreja Matriz e palco das principais solenidades cívicas e culturais."
+      },
+      {
+        id: 4304200,
+        nome: "Cândido Godói",
+        regiao: "Fronteira Noroeste",
+        pop: 6294,
+        area: 247,
+        urbPct: 48,
+        idosoPct: 28,
+        atrativo: "Pórtico de Entrada Municipal",
+        img: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Portico_Candido_Godoi.jpg",
+        legenda: "Localizado na Avenida Alvorada, o pórtico saúda a chegada a Cândido Godói, conhecida internacionalmente como a 'Terra dos Gêmeos'."
+      },
+      {
+        id: 4300307,
+        nome: "Alecrim",
+        regiao: "Fronteira Noroeste",
+        pop: 6123,
+        area: 316,
+        urbPct: 40,
+        idosoPct: 28,
+        atrativo: "Monumento ao Dourado e São Miguel",
+        img: "https://portaldasmissoes.com.br/uploads/empreendimentos/2185/0122911_regular_monumento-ao-dourado-alecrim-rs-sao-miguel-(12).jpg",
+        legenda: "Monumento de três metros de altura na Linha São Miguel que exalta a pesca do peixe dourado no Rio Uruguai e homenageia o padroeiro São Miguel."
+      },
+      {
+        id: 4303806,
+        nome: "Campina das Missões",
+        regiao: "Fronteira Noroeste",
+        pop: 5882,
+        area: 225,
+        urbPct: 52,
+        idosoPct: 28,
+        atrativo: "Igreja Matriz N. Sra. do Bom Conselho",
+        img: "https://upload.wikimedia.org/wikipedia/commons/3/37/Igreja_Matriz_-_Campina_RS.jpg",
+        legenda: "Templo histórico construído pelos pioneiros colonizadores russos e alemães, tendo sua paróquia criada em 1919 e a atual igreja inaugurada em 1941."
+      },
+      {
+        id: 4322103,
+        nome: "Tucunduva",
+        regiao: "Fronteira Noroeste",
+        pop: 5542,
+        area: 181,
+        urbPct: 74,
+        idosoPct: 25,
+        atrativo: "Praça Alcides Chitolina",
+        img: "https://portalfronteiranoroeste.com.br/wp-content/uploads/2024/02/Praca-Alcides-Chitolina-33.webp",
+        legenda: "Principal ponto de encontro e apresentações culturais no centro de Tucunduva, celebrando a convivência cidadã na terra natal do músico Tio Bilia."
+      },
+      {
+        id: 4306759,
+        nome: "Doutor Maurício Cardoso",
+        regiao: "Fronteira Noroeste",
+        pop: 4470,
+        area: 256,
+        urbPct: 43,
+        idosoPct: 29,
+        atrativo: "Balneários do Rio Uruguai",
+        img: "https://files.manuscdn.com/search-media/310519663169820208/kfb6MeNtvCWCnreXnPU52u/YDjai9hVtNjPryYDPDN4ah.JPG",
+        legenda: "As praias fluviais do Balneário Londero e as Ilhas do Chafariz formam áreas de lazer de veraneio e camping às margens do majestoso Rio Uruguai."
+      },
+      {
+        id: 4314902,
+        nome: "Porto Lucena",
+        regiao: "Fronteira Noroeste",
+        pop: 4360,
+        area: 251,
+        urbPct: 52,
+        idosoPct: 27,
+        atrativo: "Vista Aérea do Rio Uruguai",
+        img: "https://files.manuscdn.com/search-media/310519663169820208/kfb6MeNtvCWCnreXnPU52u/U7DfZEKrNarL7AUD6fj9SY.jpg",
+        legenda: "Panorâmica que revela o traçado sinuoso do Rio Uruguai na fronteira gaúcha e a exuberante Ilha Grande, com extensão superior a 6 quilômetros."
+      },
+      {
+        id: 4300455,
+        nome: "Alegria",
+        regiao: "Fronteira Noroeste",
+        pop: 3651,
+        area: 173,
+        urbPct: 41,
+        idosoPct: 29,
+        atrativo: "Cascata do Lajeado Engenho",
+        img: "https://portaldasmissoes.com.br/uploads/empreendimentos/0002167_regular_cascata-do-engenho-alegria-rs-(22).jpg",
+        legenda: "Atrativo natural a menos de 3 km da sede urbana, onde o arroio vence degraus rochosos de basalto em meio à densa vegetação nativa do Noroeste."
+      },
+      {
+        id: 4313425,
+        nome: "Novo Machado",
+        regiao: "Fronteira Noroeste",
+        pop: 3198,
+        area: 219,
+        urbPct: 35,
+        idosoPct: 30,
+        atrativo: "Museu Municipal Dácio Busanello",
+        img: "https://files.manuscdn.com/search-media/310519663169820208/kfb6MeNtvCWCnreXnPU52u/YCeRuik8eA3vjSjvQaC96G.jpg",
+        legenda: "Sediado em Vila Pratos e fundado em 1999, guarda ferramentas, móveis, fotografias e utensílios dos primeiros imigrantes pioneiros no município."
+      },
+      {
+        id: 4313037,
+        nome: "Nova Candelária",
+        regiao: "Fronteira Noroeste",
+        pop: 3061,
+        area: 98,
+        urbPct: 49,
+        idosoPct: 24,
+        atrativo: "Centro e Paróquia N. Sra. da Purificação",
+        img: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Centro-nova-candelaria-rs-bra.jpg",
+        legenda: "Núcleo urbano central organizado e florido com a Igreja Nossa Senhora da Purificação, paróquia oficializada em 1963 na colonização do vale do Buricá."
+      },
+      {
+        id: 4320453,
+        nome: "Senador Salgado Filho",
+        regiao: "Fronteira Noroeste",
+        pop: 2673,
+        area: 147,
+        urbPct: 37,
+        idosoPct: 29,
+        atrativo: "Praça dos Imigrantes",
+        img: "https://portalfronteiranoroeste.com.br/wp-content/uploads/2024/01/Praca-dos-Imigrantes-de-Senador-Salgado-Filho.webp",
+        legenda: "Homenagem perene aos colonizadores que iniciaram a ocupação da área por volta de 1906, constituindo um recanto verde de convívio comunitário."
+      },
+      {
+        id: 4318622,
+        nome: "São José do Inhacorá",
+        regiao: "Fronteira Noroeste",
+        pop: 2406,
+        area: 78,
+        urbPct: 50,
+        idosoPct: 25,
+        atrativo: "Santuário Parque São Francisco de Assis",
+        img: "https://portaldasmissoes.com.br/uploads/empreendimentos/2212/0123434_regular_santuario-parque-sao-francisco-de-assis-(83).jpg",
+        legenda: "Conhecido como Calvário, é um amplo parque de devoção ao ar livre concebido em 1978 com estações sacras, presépio e trilhas arborizadas."
+      },
+      {
+        id: 4315073,
+        nome: "Porto Mauá",
+        regiao: "Fronteira Noroeste",
+        pop: 2142,
+        area: 106,
+        urbPct: 43,
+        idosoPct: 29,
+        atrativo: "Marco do Km 0 da RS-344",
+        img: "https://upload.wikimedia.org/wikipedia/commons/3/3e/RS-344_en_Porto_Mau%C3%A1%2C_Rio_Grande_do_Sul.jpg",
+        legenda: "Marca o início da rodovia estadual junto ao porto aduaneiro no Rio Uruguai, ponto estratégico de ligação internacional entre o Brasil e Alba Posse (Argentina)."
+      },
+      {
+        id: 4315131,
+        nome: "Porto Vera Cruz",
+        regiao: "Fronteira Noroeste",
+        pop: 1560,
+        area: 114,
+        urbPct: 35,
+        idosoPct: 31,
+        atrativo: "Rio Uruguai ao Entardecer",
+        img: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Final_de_tarde_em_Porto_Vera_Cruz_%287054300759%29.jpg",
+        legenda: "Cenário ao pôr do sol no Rio Uruguai, artéria natural que possibilita a travessia diária de embarcações até o porto de Panambí, na Argentina."
+      }
+    ];
+
+    // ARREDONDAMENTO DIDÁTICO PARA O 6º ANO
+    MUNICIPIOS.forEach(m => {
+      // 1. População terminada em 00 (centena mais próxima)
+      m.popDidatica = Math.round(m.pop / 100) * 100;
+      // 2. Área em km² inteira (sem vírgula no divisor)
+      m.areaDidatica = Math.round(m.area);
+      // 3. Porcentagem inteira
+      m.urbPctDidatica = Math.round(m.urbPct);
+      
+      // Densidade com 1 casa decimal
+      m.densidade = Number((m.popDidatica / m.areaDidatica).toFixed(1));
+      // População urbana exata da porcentagem
+      m.urbanoAbs = Math.round((m.popDidatica / 100) * m.urbPctDidatica);
+      // População rural calculada por subtração direta
+      m.ruralAbs = m.popDidatica - m.urbanoAbs;
+
+      // Fração amigável da BNCC
+      if (m.idosoPct >= 28) { m.fracTxt = "3/10"; m.fracNum = 3; m.fracDen = 10; }
+      else if (m.idosoPct >= 23) { m.fracTxt = "1/4"; m.fracNum = 1; m.fracDen = 4; }
+      else { m.fracTxt = "1/5"; m.fracNum = 1; m.fracDen = 5; }
+
+      m.idosoAbs = Math.round((m.popDidatica / m.fracDen) * m.fracNum);
+    });
+
+    const nfInt = new Intl.NumberFormat('pt-BR');
+    const nfDec = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+    let selected = new Set(MUNICIPIOS.map(d => d.id));
+    let currentRegion = 'all';
+    let isTeacherKey = false;
+
+    const townList = document.getElementById('townList');
+    const searchInput = document.getElementById('searchInput');
+    const cardsGrid = document.getElementById('cardsGrid');
+
+    function getVisibleTowns() {
+      const q = searchInput.value.trim().toLowerCase();
+      return MUNICIPIOS.filter(d => {
+        const matchesQuery = !q || d.nome.toLowerCase().includes(q) || d.atrativo.toLowerCase().includes(q);
+        const matchesRegion = currentRegion === 'all' || d.regiao === currentRegion;
+        return matchesQuery && matchesRegion;
+      });
+    }
+
+    function renderTownList() {
+      const list = getVisibleTowns();
+      townList.innerHTML = list.map(d => `
+        <label class="town-item">
+          <input type="checkbox" value="${d.id}" ${selected.has(d.id) ? 'checked' : ''}>
+          <span>${d.nome}</span>
+          <span class="tag-mini ${d.regiao === 'Missões' ? 'tag-missoes' : 'tag-fronteira'}">
+            ${d.regiao === 'Missões' ? 'MIS' : 'FNO'}
+          </span>
+        </label>
+      `).join('');
+      document.getElementById('selectedCountText').textContent = `${selected.size} selecionados`;
+    }
+
+    function makeCard(d, index) {
+      const popStr = nfInt.format(d.popDidatica);
+      const areaStr = nfInt.format(d.areaDidatica);
+      const urbAbsStr = nfInt.format(d.urbanoAbs);
+      const ruralAbsStr = nfInt.format(d.ruralAbs);
+      const densStr = nfDec.format(d.densidade);
+      const idosoAbsStr = nfInt.format(d.idosoAbs);
+      const fallbackUrl = makeFallbackSvg(d.nome, d.atrativo, d.regiao);
+
+      return `
+      <article class="card">
+        <div class="card-header">
+          <span class="card-region">${d.regiao}</span>
+          <span class="card-id">#${String(index + 1).padStart(2, '0')}</span>
+        </div>
+
+        <!-- Foto real com identificação do atrativo -->
+        <div class="photo-container">
+          <img 
+            src="${d.img}" 
+            alt="${d.atrativo}" 
+            class="card-photo" 
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            onerror="this.onerror=null; this.src='${fallbackUrl}';"
+          >
+          <div class="photo-caption">📍 ${d.atrativo}</div>
+        </div>
+
+        <h3 class="card-title">${d.nome}</h3>
+        
+        <!-- Legenda histórica/cultural da imagem -->
+        <div class="card-desc" title="${d.legenda}">
+          ${d.legenda}
+        </div>
+
+        <div class="card-base-data">
+          <div>População: <strong>${popStr} hab</strong></div>
+          <div style="text-align: right;">Área: <strong>${areaStr} km²</strong></div>
+        </div>
+
+        <div class="param-list">
+          <!-- Parâmetro 1: Divisão (Densidade) -->
+          <div class="param-box">
+            <div class="param-title">1. DENSIDADE (Divisão)</div>
+            <div class="param-math">
+              ${popStr} ÷ ${areaStr} = 
+              ${isTeacherKey ? `<span class="solved-val">${densStr}</span>` : '<span class="blank-box"></span>'} hab/km²
+            </div>
+          </div>
+
+          <!-- Parâmetro 2: Porcentagem (Urbana) -->
+          <div class="param-box">
+            <div class="param-title">2. POP. URBANA (Porcentagem)</div>
+            <div class="param-math">
+              ${d.urbPctDidatica}% de ${popStr} = 
+              ${isTeacherKey ? `<span class="solved-val">${urbAbsStr}</span>` : '<span class="blank-box"></span>'} hab
+            </div>
+          </div>
+
+          <!-- Parâmetro 3: Subtração (Rural) -->
+          <div class="param-box">
+            <div class="param-title">3. POP. RURAL (Subtração)</div>
+            <div class="param-math">
+              ${popStr} − Urbana = 
+              ${isTeacherKey ? `<span class="solved-val">${ruralAbsStr}</span>` : '<span class="blank-box"></span>'} hab
+            </div>
+          </div>
+
+          <!-- Parâmetro 4: Fração (Idosos 60+) -->
+          <div class="param-box">
+            <div class="param-title">4. IDOSOS 60+ (Fração)</div>
+            <div class="param-math">
+              ${d.fracTxt} de ${popStr} = 
+              ${isTeacherKey ? `<span class="solved-val">${idosoAbsStr}</span>` : '<span class="blank-box"></span>'} hab
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          ${isTeacherKey ? 'GABARITO OFICIAL RESOLVIDO' : 'Calcule no rascunho · O maior resultado vence!'}
+        </div>
+      </article>`;
+    }
+
+    function renderCards() {
+      const chosen = MUNICIPIOS.filter(d => selected.has(d.id));
+      cardsGrid.innerHTML = chosen.length 
+        ? chosen.map(makeCard).join('')
+        : '<div style="padding: 30px; text-align: center; color: var(--muted); background: white; border-radius: 8px;">Nenhum município selecionado.</div>';
+      renderTownList();
+    }
+
+    townList.addEventListener('change', e => {
+      if (!e.target.matches('input[type="checkbox"]')) return;
+      const id = Number(e.target.value);
+      if (e.target.checked) selected.add(id); else selected.delete(id);
+      renderCards();
+    });
+
+    searchInput.addEventListener('input', renderTownList);
+
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentRegion = tab.dataset.filter;
+        renderTownList();
+      });
+    });
+
+    document.getElementById('btnSelectAll').addEventListener('click', () => {
+      getVisibleTowns().forEach(d => selected.add(d.id));
+      renderCards();
+    });
+
+    document.getElementById('btnClearAll').addEventListener('click', () => {
+      getVisibleTowns().forEach(d => selected.delete(d.id));
+      renderCards();
+    });
+
+    // Impressão para Alunos (com lacunas para cálculo)
+    document.getElementById('btnPrintStudents').addEventListener('click', () => {
+      if (!selected.size) { alert('Selecione pelo menos um município.'); return; }
+      isTeacherKey = false;
+      renderCards();
+      setTimeout(() => window.print(), 150);
+    });
+
+    // Impressão do Gabarito do Professor (cálculos resolvidos)
+    document.getElementById('btnPrintKey').addEventListener('ressão do Gabarito do Professor (cálculos resolvidos)
+    document.getElementById('btnPrintKey').addEventListener('click', () => {
+      if (!selected.size) { alert('Selecione pelo menos um município.'); return; }
+      isTeacherKey = true;
+      renderCards();
+      setTimeout(() => window.print(), 150);
+    });
+
+    window.addEventListener('afterprint', () => {
+      isTeacherKey = false;
+      renderCards();
+    });
+
+    renderCards();
+  </script>
+</body>
+</html>
