@@ -10,6 +10,8 @@
       --primary: #1a3a4b;
       --primary-light: #2c586f;
       --accent: #2e7d32;
+      --gold: #b45309;
+      --gold-bg: #fef3c7;
       --border: #b0bec5;
       --text: #1e293b;
       --muted: #64748b;
@@ -70,7 +72,6 @@
       color: var(--primary);
     }
 
-    /* Alternador de Modo na Tela */
     .mode-selector {
       display: flex;
       gap: 6px;
@@ -133,7 +134,6 @@
       margin-bottom: 10px;
     }
 
-    /* Detalhes expansíveis da lista de municípios */
     details.town-details {
       margin-bottom: 12px;
       border: 1px solid var(--border);
@@ -227,7 +227,6 @@
     .btn-key { background: var(--accent); color: white; }
     .btn-scroll { background: #475569; color: white; display: none; }
 
-    /* Barra de status da contagem de cartas */
     .status-bar {
       display: flex;
       justify-content: space-between;
@@ -242,51 +241,30 @@
       color: var(--primary);
     }
 
-    /* Grid das Cartas */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .sheet-page {
+      display: contents;
     }
 
     .card {
       background: white;
       border: 1.5px solid #94a3b8;
-      border-radius: 10px;
+      border-radius: 0;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       box-shadow: 0 4px 8px rgba(0,0,0,0.06);
     }
 
-    .card-header {
-      background: var(--primary);
-      color: white;
-      padding: 5px 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .card-id {
-      font-size: 0.75rem;
-      font-weight: 800;
-      background: rgba(255,255,255,0.25);
-      padding: 1px 6px;
-      border-radius: 4px;
-    }
-
-    .card-region {
-      font-size: 0.6rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
     .photo-container {
       position: relative;
       width: 100%;
-      height: 84px;
+      height: 155px;
       background: #cbd5e1;
       overflow: hidden;
       border-bottom: 2px solid var(--primary-light);
@@ -300,88 +278,140 @@
       display: block;
     }
 
+    /* Nome do Município sobreposto no canto superior esquerdo */
+    .photo-town-name {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      background: transparent !important;
+      color: #ffffff !important;
+      font-size: 1.25rem;
+      font-weight: 900;
+      line-height: 1.1;
+      text-shadow: 
+        -1.5px -1.5px 0 #000,  
+         1.5px -1.5px 0 #000,
+        -1.5px  1.5px 0 #000,
+         1.5px  1.5px 0 #000,
+         0 2px 5px rgba(0,0,0,0.95);
+      -webkit-text-stroke: 0.5px #000000;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .overlay-id {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.88);
+      color: white;
+      padding: 3px 8px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      z-index: 2;
+    }
+
+    /* Localização do atrativo turístico no canto inferior */
     .photo-caption {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(15, 23, 42, 0.85);
-      color: #f8fafc;
-      font-size: 0.62rem;
-      font-weight: 600;
-      padding: 2px 6px;
+      bottom: 5px;
+      left: 8px;
+      right: 8px;
+      background: transparent !important;
+      color: #ffffff !important;
+      font-size: 0.84rem;
+      font-weight: 850;
+      line-height: 1.15;
+      text-shadow: 
+        -1.3px -1.3px 0 #000,  
+         1.3px -1.3px 0 #000,
+        -1.3px  1.3px 0 #000,
+         1.3px  1.3px 0 #000,
+         0 2px 4px rgba(0,0,0,0.95);
+      -webkit-text-stroke: 0.45px #000000;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      pointer-events: none;
+      z-index: 2;
     }
 
-    .card-title {
-      margin: 5px 8px 1px;
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--primary);
-      line-height: 1.1;
-    }
-
-    /* Legenda cultural do ponto turístico */
+    /* Descrição ampla e sem cortes logo abaixo da foto */
     .card-desc {
-      margin: 0 8px 4px;
-      font-size: 0.66rem;
-      line-height: 1.25;
+      margin: 8px 8px 5px;
+      font-size: 0.68rem;
+      line-height: 1.3;
       color: #334155;
       background: #f8fafc;
-      border-left: 2px solid var(--primary-light);
-      padding: 2px 5px;
-      border-radius: 0 4px 4px 0;
+      border-left: 2.5px solid var(--primary-light);
+      padding: 4px 6px;
+      border-radius: 0;
     }
 
     .card-base-data {
       display: flex;
       justify-content: space-between;
-      margin: 0 8px 4px;
-      padding-bottom: 3px;
+      margin: 0 8px 6px;
+      padding-bottom: 4px;
       border-bottom: 1px solid var(--border);
-      font-size: 0.67rem;
+      font-size: 0.7rem;
       color: var(--muted);
     }
 
     .card-base-data strong {
       color: var(--text);
       display: block;
-      font-size: 0.74rem;
+      font-size: 0.76rem;
     }
 
     .param-list {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      padding: 0 8px 5px;
-      flex: 1;
+      gap: 3.5px;
+      padding: 0 8px 8px;
+      margin-top: auto;
     }
 
     .param-box {
       border: 1px solid #cbd5e1;
-      border-radius: 5px;
-      padding: 3px 6px;
+      border-radius: 0;
+      padding: 3.5px 6px;
       background: #f8fafc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.68rem;
+    }
+
+    .param-box.is-trunfo {
+      border-color: #d97706;
+      background: var(--gold-bg);
     }
 
     .param-title {
-      font-size: 0.63rem;
       font-weight: 750;
       color: #334155;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    .param-math {
-      margin-top: 1px;
-      font-size: 0.65rem;
+    .param-box.is-trunfo .param-title {
+      color: var(--gold);
+    }
+
+    .param-val {
+      font-weight: 800;
       color: #0f172a;
       font-variant-numeric: tabular-nums;
+      text-align: right;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .blank-box {
       display: inline-block;
-      width: 36px;
+      width: 26px;
       border-bottom: 1.5px solid #0f172a;
       vertical-align: bottom;
       margin: 0 2px;
@@ -390,21 +420,10 @@
     .solved-val {
       color: var(--accent);
       font-weight: 800;
-      background: rgba(46, 125, 50, 0.1);
+      background: rgba(46, 125, 50, 0.12);
       padding: 0 4px;
-      border-radius: 3px;
     }
 
-    .card-footer {
-      background: #f1f5f9;
-      border-top: 1px dashed var(--border);
-      padding: 3px 6px;
-      font-size: 0.54rem;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    /* Modal de Instruções de Impressão */
     .mobile-help-modal {
       display: none;
       position: fixed;
@@ -440,7 +459,6 @@
       cursor: pointer;
     }
 
-    /* Responsividade para Celulares */
     @media (max-width: 900px) {
       .layout { grid-template-columns: 1fr; }
       .controls { position: static; }
@@ -450,73 +468,185 @@
       .btn-scroll { display: flex; }
     }
 
-    /* Impressão em A4: 3 colunas x 3 linhas = 9 cartas por folha */
     @page {
       size: A4 portrait;
-      margin: 7mm 5mm;
+      margin: 14mm 10mm 14mm 10mm;
     }
 
     @media print {
       html, body {
         background: white !important;
         color: black !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
-      .screen-only, .controls, .status-bar, .mobile-help-modal { display: none !important; }
-      .layout { display: block; }
-      .shell { padding: 0; max-width: none; }
+
+      .screen-only, 
+      aside.controls, 
+      header, 
+      .status-bar, 
+      .mobile-help-modal,
+      .panel {
+        display: none !important;
+      }
+
+      .layout, .shell, main.right-column {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+      }
 
       .cards-grid {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .sheet-page {
         display: grid !important;
-        grid-template-columns: repeat(3, 62mm);
-        grid-auto-rows: 88mm;
-        gap: 2.5mm;
-        justify-content: center;
-        align-content: start;
+        grid-template-columns: repeat(3, 63mm) !important;
+        grid-template-rows: repeat(3, 88mm) !important;
+        gap: 0 !important;
+        width: 189mm !important;
+        height: 264mm !important;
+        margin: 0 auto !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        box-sizing: border-box !important;
+      }
+
+      .sheet-page:last-child {
+        page-break-after: auto !important;
+        break-after: auto !important;
       }
 
       .card {
-        width: 62mm;
-        height: 88mm;
-        border: 0.35mm solid #334155;
-        border-radius: 2mm;
-        box-shadow: none;
-        break-inside: avoid;
-        page-break-inside: avoid;
+        width: 63mm !important;
+        height: 88mm !important;
+        border: 0.25mm solid #334155 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
       }
 
-      .card-header { padding: 0.8mm 1.8mm; }
-      .card-id { font-size: 5.5pt; }
-      .card-region { font-size: 4.8pt; }
-      
-      .photo-container { height: 15mm; }
-      .photo-caption { font-size: 4.6pt; padding: 0.4mm 1.2mm; }
-      
-      .card-title { margin: 0.8mm 1.8mm 0.2mm; font-size: 8.8pt; }
-      
-      .card-desc { 
-        margin: 0 1.8mm 0.6mm; 
-        font-size: 4.5pt; 
-        line-height: 1.15; 
-        padding: 0.4mm 1mm;
-        max-height: 8.5mm;
-        overflow: hidden;
+      .photo-container {
+        height: 33.5mm !important;
+        min-height: 33.5mm !important;
+        max-height: 33.5mm !important;
+        border-bottom: 0.35mm solid #1a3a4b !important;
       }
 
-      .card-base-data { 
-        margin: 0 1.8mm 0.6mm; 
-        padding-bottom: 0.5mm; 
-        font-size: 5.2pt; 
+      /* Nome do Município sobreposto no corte A4 */
+      .photo-town-name {
+        top: 1.2mm !important;
+        left: 2mm !important;
+        font-size: 10.5pt !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+        text-shadow: 
+          -0.9px -0.9px 0 #000,  
+           0.9px -0.9px 0 #000,
+          -0.9px  0.9px 0 #000,
+           0.9px  0.9px 0 #000,
+           0 2px 3px rgba(0,0,0,0.95) !important;
+        -webkit-text-stroke: 0.4px #000000 !important;
       }
-      .card-base-data strong { font-size: 5.8pt; }
-      
-      .param-list { gap: 0.5mm; padding: 0 1.5mm 0.6mm; }
-      .param-box { padding: 0.5mm 1mm; border-radius: 0.6mm; }
-      .param-title { font-size: 4.9pt; }
-      .param-math { margin-top: 0.1mm; font-size: 5pt; }
-      .blank-box { width: 8mm; border-bottom-width: 0.3mm; }
-      
-      .solved-val { background: none; padding: 0; }
-      .card-footer { padding: 0.6mm 1mm; font-size: 4.4pt; }
+
+      .overlay-id {
+        font-size: 6.2pt !important;
+        padding: 0.6mm 1.6mm !important;
+      }
+
+      /* Localização do atrativo turístico no corte A4 */
+      .photo-caption {
+        bottom: 1.2mm !important;
+        left: 2mm !important;
+        right: 2mm !important;
+        font-size: 6.8pt !important;
+        font-weight: 850 !important;
+        background: transparent !important;
+        color: #ffffff !important;
+        text-shadow: 
+          -0.85px -0.85px 0 #000,  
+           0.85px -0.85px 0 #000,
+          -0.85px  0.85px 0 #000,
+           0.85px  0.85px 0 #000,
+           0 1.5px 2px rgba(0,0,0,0.95) !important;
+        -webkit-text-stroke: 0.35px #000000 !important;
+      }
+
+      /* Descrição completa sem cortes */
+      .card-desc {
+        margin: 1.2mm 2mm 1mm !important;
+        font-size: 5.4pt !important;
+        line-height: 1.24 !important;
+        padding: 0.8mm 1.4mm !important;
+        max-height: none !important;
+        overflow: visible !important;
+        border-left: 0.5mm solid #2c586f !important;
+      }
+
+      .card-base-data {
+        margin: 0 2mm 1.2mm !important;
+        padding-bottom: 0.6mm !important;
+        font-size: 6.2pt !important;
+        border-bottom: 0.25mm solid #cbd5e1 !important;
+      }
+      .card-base-data strong { font-size: 6.8pt !important; }
+
+      .param-list {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.9mm !important;
+        padding: 0 2mm 1.4mm !important;
+        margin-top: auto !important;
+      }
+
+      .param-box {
+        padding: 1.1mm 1.6mm !important;
+        border: 0.25mm solid #cbd5e1 !important;
+        border-radius: 0 !important;
+        font-size: 6pt !important;
+        min-height: 5.4mm !important;
+        box-sizing: border-box !important;
+        gap: 1.5mm !important;
+      }
+
+      .param-box.is-trunfo {
+        border-color: #d97706 !important;
+        background: #fef3c7 !important;
+      }
+
+      .param-title { 
+        font-size: 5.8pt !important; 
+        font-weight: 750 !important;
+        flex-shrink: 0 !important;
+      }
+      .param-val { 
+        font-size: 6.1pt !important; 
+        font-weight: 800 !important;
+        flex-shrink: 0 !important;
+      }
+      .blank-box { 
+        width: 5.5mm !important; 
+        border-bottom: 0.35mm solid #0f172a !important; 
+      }
+      .solved-val { 
+        background: none !important; 
+        padding: 0 !important; 
+        color: #15803d !important;
+        font-weight: 850 !important;
+      }
     }
   </style>
 </head>
@@ -524,18 +654,16 @@
   <div class="shell">
     <header class="screen-only">
       <h1>Super Trunfo Matemático: Missões & Fronteira Noroeste</h1>
-      <p>45 municípios gaúchos · Fotos reais do patrimônio local com descrições · Arredondamento didático 6º ano</p>
+      <p>45 municípios gaúchos · 5 atributos gerais · Desbloqueio do Trunfo através do cálculo matemático do 6º ano</p>
     </header>
 
     <div class="layout">
-      <!-- Painel de Controles -->
       <aside class="panel controls screen-only">
         <h2>Painel de Controle</h2>
 
-        <!-- Alternador de Modo de Visualização na Tela -->
         <div class="mode-selector">
           <button class="mode-btn active" id="btnModeStudent" type="button">📝 Modo Aluno</button>
-          <button class="mode-btn" id="btnModeTeacher" type="button">👨‍‍🏫 Gabarito</button>
+          <button class="mode-btn" id="btnModeTeacher" type="button">👨‍🏫 Gabarito</button>
         </div>
 
         <div class="filter-tabs">
@@ -546,7 +674,6 @@
 
         <input type="search" class="search-box" id="searchInput" placeholder="Buscar município ou atrativo...">
 
-        <!-- Detalhes com seleção individual (fechado por padrão no celular) -->
         <details class="town-details" id="townDetails">
           <summary>🔍 Seleção Individual (<span id="summaryCount">45</span> cidades)</summary>
           <div class="town-list-inner">
@@ -568,14 +695,13 @@
         </div>
       </aside>
 
-      <!-- Grade das Cartas -->
       <main class="right-column">
         <div class="status-bar screen-only">
           <span id="cardsStatus">Exibindo 45 cartas</span>
           <span id="currentModeLabel" style="color: var(--primary);">Modo: Aluno (Com lacunas)</span>
         </div>
         <div class="cards-grid" id="cardsGrid">
-          <div style="padding: 24px; text-align: center; color: var(--muted); background: white; border-radius: 8px;">
+          <div style="padding: 24px; text-align: center; color: var(--muted); background: white; border-radius: 0;">
             Carregando baralho...
           </div>
         </div>
@@ -583,7 +709,6 @@
     </div>
   </div>
 
-  <!-- Modal de Ajuda de Impressão no Celular -->
   <div class="mobile-help-modal" id="mobileHelpModal">
     <div class="modal-box">
       <h3>Como Salvar em PDF / Imprimir no Celular</h3>
@@ -598,7 +723,6 @@
   </div>
 
   <script>
-    // Gerador de banner SVG alternativo seguro
     function makeFallbackSvg(nome, atrativo, regiao) {
       const c1 = regiao === "Missões" ? "#7f1d1d" : "#1e3a8a";
       const c2 = regiao === "Missões" ? "#991b1b" : "#2563eb";
@@ -608,81 +732,1308 @@
         <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs>
         <rect width="100%" height="100%" fill="url(#g)"/>
         <text x="200" y="65" font-family="sans-serif" font-size="28" fill="#ffffff" text-anchor="middle">📍</text>
-        <text x="200" y="100" font-family="sans-serif" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">${safeNome}</text>
-        <text x="200" y="122" font-family="sans-serif" font-size="11" fill="rgba(255,255,255,0.85)" text-anchor="middle">${safeAtrativo}</text>
+        <text x="200" y="100" font-family="sans-serif" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle">${safeNome}</text>
+        <text x="200" y="124" font-family="sans-serif" font-size="12" fill="rgba(255,255,255,0.9)" text-anchor="middle">${safeAtrativo}</text>
       </svg>`;
       return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
     }
 
-    // 45 MUNICÍPIOS COM ATRATIVOS E DESCRIÇÕES REAIS
     const MUNICIPIOS = [
       {
-        id: 4302501,
-        nome: "Bossoroca",
-        regiao: "Missões",
-        pop: 5890,
-        area: 1610,
-        urbPct: 58,
-        idosoPct: 26,
-        atrativo: "Cerro da Bela Vista",
-        img: "https://www.caminhodasorigens.com.br/wp-content/uploads/2020/11/S55_3749-scaled.jpg",
-        legenda: "O Cerro da Bela Vista fica no interior de Bossoroca, associado a uma antiga rota de tropeiros e carreteiros que ligava a fronteira com a Argentina ao Boqueirão de La Sierra."
+        "id": 4302501,
+        "nome": "Bossoroca",
+        "regiao": "Missões",
+        "pop": 5890,
+        "area": 1610,
+        "atrativo": "Cerro da Bela Vista",
+        "img": "https://www.caminhodasorigens.com.br/wp-content/uploads/2020/11/S55_3749-scaled.jpg",
+        "legenda": "O Cerro da Bela Vista fica no interior de Bossoroca. A página turística o associa a uma antiga rota de tropeiros e carreteiros que ligava a fronteira com a Argentina ao Boqueirão de La Sierra, hoje Santiago do Boqueirão.",
+        "attrs": {
+          "veg_ha": "44.800 ha",
+          "san_pct": "74,5%",
+          "pib_mil": "R$ 48,6 mil",
+          "ideb": "6,5",
+          "alfa_pct": "94,2%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "7/10 de 64.000",
+          "unit": "ha",
+          "result_str": "44.800 ha"
+        }
       },
       {
-        id: 4303301,
-        nome: "Caibaté",
-        regiao: "Missões",
-        pop: 4704,
-        area: 261,
-        urbPct: 66,
-        idosoPct: 26,
-        atrativo: "Santuário do Caaró",
-        img: "https://upload.wikimedia.org/wikipedia/commons/5/50/Santu%C3%A1rio_de_Caar%C3%B3_01.jpg",
-        legenda: "O Santuário do Caaró fica junto ao trevo de acesso pela BR-285, identificado pela história missioneira como o local do martírio do padre Roque Gonzales."
+        "id": 4303301,
+        "nome": "Caibaté",
+        "regiao": "Missões",
+        "pop": 4704,
+        "area": 261,
+        "atrativo": "Santuário do Caaró",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/5/50/Santu%C3%A1rio_de_Caar%C3%B3_01.jpg",
+        "legenda": "O Santuário do Caaró fica junto ao trevo de acesso a Caibaté pela BR-285. A Prefeitura o identifica como o local onde tombou Roque Gonzales de Santa Cruz.",
+        "attrs": {
+          "veg_ha": "6.200 ha",
+          "san_pct": "81,2%",
+          "pib_mil": "R$ 51,4 mil",
+          "ideb": "6,8",
+          "alfa_pct": "95,8%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "80² − 200",
+          "unit": "ha",
+          "result_str": "6.200 ha"
+        }
       },
       {
-        id: 4305207,
-        nome: "Cerro Largo",
-        regiao: "Missões",
-        pop: 13705,
-        area: 177,
-        urbPct: 82,
-        idosoPct: 23,
-        atrativo: "Igreja Matriz Sagrada Família de Nazaré",
-        img: "https://sp1-object.adentro.com.br/sites/740/PontosTuristicos/42/u0hw3t3g9cq4eea8rjch_WhatsAppImage2023-03-22at15.40.21.jpeg",
-        legenda: "Projetada em linhas neogóticas, a imponente Igreja Matriz teve sua construção iniciada em 1913 e foi solenemente inaugurada em 1921."
+        "id": 4305207,
+        "nome": "Cerro Largo",
+        "regiao": "Missões",
+        "pop": 13705,
+        "area": 177,
+        "atrativo": "Igreja Matriz Sagrada Família de Nazaré",
+        "img": "https://sp1-object.adentro.com.br/sites/740/PontosTuristicos/42/u0hw3t3g9cq4eea8rjch_WhatsAppImage2023-03-22at15.40.21.jpeg",
+        "legenda": "A página turística de Cerro Largo registra que a construção começou em 1913 e a inauguração solene ocorreu em 1921.",
+        "attrs": {
+          "veg_ha": "2.830 ha",
+          "san_pct": "87,6%",
+          "pib_mil": "R$ 55,9 mil",
+          "ideb": "6,9",
+          "alfa_pct": "97,2%"
+        },
+        "hidden_attr": "san_pct",
+        "challenge": {
+          "formula": "(15 × 5,5) + 5,1",
+          "unit": "%",
+          "result_str": "87,6%"
+        }
       },
       {
-        id: 4306353,
-        nome: "Dezesseis de Novembro",
-        regiao: "Missões",
-        pop: 2507,
-        area: 217,
-        urbPct: 27,
-        idosoPct: 31,
-        atrativo: "Salto do Pirapó",
-        img: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Max1224269152salto_pirapo1.jpg",
-        legenda: "O Salto do Pirapó é uma impressionante sequência de quedas no Rio Ijuí, servindo de divisa natural entre Dezesseis de Novembro e Roque Gonzales."
+        "id": 4306353,
+        "nome": "Dezesseis de Novembro",
+        "regiao": "Missões",
+        "pop": 2507,
+        "area": 217,
+        "atrativo": "Salto do Pirapó",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Max1224269152salto_pirapo1.jpg",
+        "legenda": "A página do município sobre o Salto do Pirapó descreve o atrativo no Rio Ijuí, na divisa com Roque Gonzales, como a principal referência turística local.",
+        "attrs": {
+          "veg_ha": "7.150 ha",
+          "san_pct": "68,4%",
+          "pib_mil": "R$ 44,2 mil",
+          "ideb": "6,6",
+          "alfa_pct": "93,8%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "(3/4 de 9.000) + 400",
+          "unit": "ha",
+          "result_str": "7.150 ha"
+        }
       },
       {
-        id: 4306932,
-        nome: "Entre-Ijuís",
-        regiao: "Missões",
-        pop: 9158,
-        area: 553,
-        urbPct: 61,
-        idosoPct: 25,
-        atrativo: "Sítio Arqueológico de São João Batista",
-        img: "https://upload.wikimedia.org/wikipedia/commons/3/3f/S%C3%ADtio_Arqueol%C3%B3gico_de_S%C3%A3o_Jo%C3%A3o_Batista_04.jpg",
-        legenda: "Fundado em 1697 pelo padre Antônio Sepp, foi a primeira fundição de ferro do Sul do país e integra o Parque Histórico Nacional das Missões."
+        "id": 4306932,
+        "nome": "Entre-Ijuís",
+        "regiao": "Missões",
+        "pop": 9158,
+        "area": 553,
+        "atrativo": "Sítio Arqueológico de São João Batista",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/3/3f/S%C3%ADtio_Arqueol%C3%B3gico_de_S%C3%A3o_Jo%C3%A3o_Batista_04.jpg",
+        "legenda": "O Instituto do Patrimônio Histórico e Artístico Nacional informa que o sítio foi fundado em 1697 pelo padre Antônio Sepp e reúne remanescentes da redução jesuítica.",
+        "attrs": {
+          "veg_ha": "11.800 ha",
+          "san_pct": "79,5%",
+          "pib_mil": "R$ 52,8 mil",
+          "ideb": "6,5",
+          "alfa_pct": "95,1%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "(3/5 de 20.000) − 200",
+          "unit": "ha",
+          "result_str": "11.800 ha"
+        }
       },
       {
-        id: 4307831,
-        nome: "Eugênio de Castro",
-        regiao: "Missões",
-        pop: 2633,
-        area: 418,
-        urbPct: 64,
-        idosoPct: 29,
-        atrativo: "Lagoa da Mortandade",
-        img: "https://www.eu
+        "id": 4307831,
+        "nome": "Eugênio de Castro",
+        "regiao": "Missões",
+        "pop": 2633,
+        "area": 418,
+        "atrativo": "Lagoa da Mortandade",
+        "img": "https://www.eugeniodecastro.rs.gov.br/admin/globalarq/album/651_366/15cee69205458155dbc014dfd504e749.webp",
+        "legenda": "A página turística municipal situa a Lagoa da Mortandade, também chamada Lagoa do Chaine, em Carajazinho, associando-a à memória da Revolução de 1923.",
+        "attrs": {
+          "veg_ha": "9.400 ha",
+          "san_pct": "75,8%",
+          "pib_mil": "R$ 88,0 mil",
+          "ideb": "7,1",
+          "alfa_pct": "94,6%"
+        },
+        "hidden_attr": "pib_mil",
+        "challenge": {
+          "formula": "(15² ÷ 3) + 13",
+          "unit": "mil R$",
+          "result_str": "R$ 88,0 mil"
+        }
+      },
+      {
+        "id": 4308656,
+        "nome": "Garruchos",
+        "regiao": "Missões",
+        "pop": 2688,
+        "area": 804,
+        "atrativo": "Porto de Garruchos / Rio Uruguai",
+        "img": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9Qzw7Prsy-PGD_9pMTJk5hw8tfeITLBIkLU9qT57b-uAdXh4xVWPXvlP4mvwyzxZC0ePW6wndkQbn4NWC-ZlRmAt8wytkh1QD1OjRjegBPCeR2ZGBGJ6rcZw1dJMOkjbEamiGcP=s1360-w1360-h1020-rw",
+        "legenda": "O Rio Uruguai em Garruchos marca a fronteira fluvial com a Argentina e concentra a paisagem ribeirinha e os acessos fluviais do município.",
+        "attrs": {
+          "veg_ha": "28.500 ha",
+          "san_pct": "66,2%",
+          "pib_mil": "R$ 46,5 mil",
+          "ideb": "7,7",
+          "alfa_pct": "93,1%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "(2,5 × 3) + 0,2",
+          "unit": "pts",
+          "result_str": "7,7"
+        }
+      },
+      {
+        "id": 4309001,
+        "nome": "Giruá",
+        "regiao": "Missões",
+        "pop": 16013,
+        "area": 857,
+        "atrativo": "Cascata do Passo da Pedra",
+        "img": "https://www.portaldasmissoes.com.br/uploads/empreendimentos/1475/0041496_regular_cascata-do-passo-da-pedra-girua-rs-cachoeira-do-passo-da-pedra--fone-prefeitura-girua-(10).jpg",
+        "legenda": "Queda d'água no Rio Comandaí; a página turística regional registra que a estrada de acesso correspondia a uma antiga passagem de tropas.",
+        "attrs": {
+          "veg_ha": "14.200 ha",
+          "san_pct": "84,8%",
+          "pib_mil": "R$ 54,2 mil",
+          "ideb": "6,8",
+          "alfa_pct": "96,0%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "120² − 200",
+          "unit": "ha",
+          "result_str": "14.200 ha"
+        }
+      },
+      {
+        "id": 4309506,
+        "nome": "Guarani das Missões",
+        "regiao": "Missões",
+        "pop": 7415,
+        "area": 291,
+        "atrativo": "Igreja Matriz Santa Tereza d’Ávila",
+        "img": "https://www.portaldasmissoes.com.br/uploads/imagens/0000078_regular_portal-das-missoes-igreja-santa-teresa-davila-(65).jpg",
+        "legenda": "A página turística regional informa que a igreja teve início em 1925 e conserva vitrais poloneses que retratam passagens bíblicas.",
+        "attrs": {
+          "veg_ha": "5.800 ha",
+          "san_pct": "82,4%",
+          "pib_mil": "R$ 49,8 mil",
+          "ideb": "6,6",
+          "alfa_pct": "95,9%"
+        },
+        "hidden_attr": "san_pct",
+        "challenge": {
+          "formula": "(18 × 4,5) + 1,4",
+          "unit": "%",
+          "result_str": "82,4%"
+        }
+      },
+      {
+        "id": 4312179,
+        "nome": "Mato Queimado",
+        "regiao": "Missões",
+        "pop": 1795,
+        "area": 115,
+        "atrativo": "Centro Administrativo Municipal",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Prefeitura_Municipal_Mato_Queimado.jpg",
+        "legenda": "O Centro Administrativo concentra os serviços públicos municipais e simboliza a autonomia político-administrativa da comunidade missioneira.",
+        "attrs": {
+          "veg_ha": "2.100 ha",
+          "san_pct": "78,2%",
+          "pib_mil": "R$ 56,4 mil",
+          "ideb": "6,9",
+          "alfa_pct": "96,5%"
+        },
+        "hidden_attr": "pib_mil",
+        "challenge": {
+          "formula": "7² + 7,4",
+          "unit": "mil R$",
+          "result_str": "R$ 56,4 mil"
+        }
+      },
+      {
+        "id": 4314555,
+        "nome": "Pirapó",
+        "regiao": "Missões",
+        "pop": 2260,
+        "area": 294,
+        "atrativo": "Igreja Matriz de São José",
+        "img": "https://www.portaldasmissoes.com.br/uploads/empreendimentos/0000715_regular_igreja-matriz-de-pirapo-01.jpg",
+        "legenda": "A página turística regional registra que a matriz atual de Pirapó foi inaugurada em 1957, na área central do município.",
+        "attrs": {
+          "veg_ha": "8.900 ha",
+          "san_pct": "69,5%",
+          "pib_mil": "R$ 41,8 mil",
+          "ideb": "7,1",
+          "alfa_pct": "94,0%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "(4 × 1,5) + 1,1",
+          "unit": "pts",
+          "result_str": "7,1"
+        }
+      },
+      {
+        "id": 4315107,
+        "nome": "Porto Xavier",
+        "regiao": "Missões",
+        "pop": 9938,
+        "area": 281,
+        "atrativo": "Mirante do Rio Uruguai",
+        "img": "https://scontent.fsra1-1.fna.fbcdn.net/v/t39.30808-6/506966307_1143937084432985_5653155448520447930_n.jpg?stp=dst-jpg_tt6&cstp=mx800x533&ctp=s800x533&_nc_cat=108&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEuxIpp7r2Qz3MlHb_NtGmz7WQBWjkNJHftZAFaOQ0kdxgKpONyDUH0NESC2QGZVhOpDbgMwV9LWoa64xeAaT15&_nc_ohc=-wmcFZdirTIQ7kNvwHJa_Xb&_nc_oc=AdqsanFcfV2ouIVu1PPLFimrwKWp9fECkvAXxqBDczLAzjkVSBH5nQs1jJTIY6uWY0Q&_nc_zt=23&_nc_ht=scontent.fsra1-1.fna&_nc_gid=WcDiyrZkEsNL0GoL4_5owQ&_nc_ss=7b2a8&oh=00_AQP1M45D4sHXwqO9Q9tGkn-msc0UDZ7SorwM5y2gf1D6Xw&oe=6AC308B3",
+        "legenda": "A Prefeitura de Porto Xavier divulga o mirante junto às barrancas do Rio Uruguai como ponto de observação do rio e da travessia para a Argentina.",
+        "attrs": {
+          "veg_ha": "7.600 ha",
+          "san_pct": "79,0%",
+          "pib_mil": "R$ 45,3 mil",
+          "ideb": "7,0",
+          "alfa_pct": "95,2%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "3² − 2,0",
+          "unit": "pts",
+          "result_str": "7,0"
+        }
+      },
+      {
+        "id": 4315958,
+        "nome": "Rolador",
+        "regiao": "Missões",
+        "pop": 2291,
+        "area": 295,
+        "atrativo": "Casa de Pedra",
+        "img": "https://portaldasmissoes.com/uploads/empreendimentos/2076/0116412_regular_casa-de-pedra~3.jpg",
+        "legenda": "A página turística regional informa que a residência de pedra foi construída em 1955 por Brasil da Silva Rios, na localidade de Passo Novo.",
+        "attrs": {
+          "veg_ha": "6.500 ha",
+          "san_pct": "71,2%",
+          "pib_mil": "R$ 47,9 mil",
+          "ideb": "6,7",
+          "alfa_pct": "94,4%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "(5/8 de 10.000) + 250",
+          "unit": "ha",
+          "result_str": "6.500 ha"
+        }
+      },
+      {
+        "id": 4316303,
+        "nome": "Roque Gonzales",
+        "regiao": "Missões",
+        "pop": 6576,
+        "area": 349,
+        "atrativo": "Prainha e Quiosque Pôr do Sol",
+        "img": "https://www.radiomissioneira.com/wp-content/uploads/2022/12/WhatsApp-Image-2022-12-03-at-10.56.41.jpeg",
+        "legenda": "A Prefeitura de Roque Gonzales apresenta a prainha na represa do Rio Ijuí como área de lazer e contemplação do pôr do sol.",
+        "attrs": {
+          "veg_ha": "9.800 ha",
+          "san_pct": "77,4%",
+          "pib_mil": "R$ 115,3 mil",
+          "ideb": "8,2",
+          "alfa_pct": "95,5%"
+        },
+        "hidden_attr": "pib_mil",
+        "challenge": {
+          "formula": "11² − 5,7",
+          "unit": "mil R$",
+          "result_str": "R$ 115,3 mil"
+        }
+      },
+      {
+        "id": 4316477,
+        "nome": "Salvador das Missões",
+        "regiao": "Missões",
+        "pop": 2877,
+        "area": 94,
+        "atrativo": "Igreja Matriz Cristo Rei",
+        "img": "https://portaldasmissoes.com.br/uploads/empreendimentos/1162/0019926_regular_igreja-matriz--cristo-rei-em-salvador-das-missoes-01.jpg",
+        "legenda": "A página turística regional situa a Igreja Matriz Cristo Rei na Avenida Independência, no centro de Salvador das Missões.",
+        "attrs": {
+          "veg_ha": "1.750 ha",
+          "san_pct": "88,5%",
+          "pib_mil": "R$ 58,2 mil",
+          "ideb": "7,0",
+          "alfa_pct": "97,4%"
+        },
+        "hidden_attr": "alfa_pct",
+        "challenge": {
+          "formula": "100 − (4 × 0,65)",
+          "unit": "%",
+          "result_str": "97,4%"
+        }
+      },
+      {
+        "id": 4317707,
+        "nome": "Santo Antônio das Missões",
+        "regiao": "Missões",
+        "pop": 10300,
+        "area": 1711,
+        "atrativo": "Praça Antônio Vicente do Nascimento",
+        "img": "https://portaldasmissoes.com.br/uploads/empreendimentos/0001095_regular_regiao-das-missoes-santo-antonio-das-missoes-praca-central-(1).jpg",
+        "legenda": "A praça central de Santo Antônio das Missões recebeu essa denominação pela Lei Municipal nº 211, de 1983.",
+        "attrs": {
+          "veg_ha": "41.500 ha",
+          "san_pct": "73,8%",
+          "pib_mil": "R$ 47,2 mil",
+          "ideb": "6,1",
+          "alfa_pct": "93,5%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "200² + 1.500",
+          "unit": "ha",
+          "result_str": "41.500 ha"
+        }
+      },
+      {
+        "id": 4317509,
+        "nome": "Santo Ângelo",
+        "regiao": "Missões",
+        "pop": 76917,
+        "area": 679,
+        "atrativo": "Catedral Angelopolitana",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Catedral_angelopolitana_santo_angelo.jpg",
+        "legenda": "O IPHAN registra a Catedral Angelopolitana na Praça Pinheiro Machado, construída sobre remanescentes da redução de Santo Ângelo Custódio.",
+        "attrs": {
+          "veg_ha": "12.400 ha",
+          "san_pct": "91,8%",
+          "pib_mil": "R$ 42,8 mil",
+          "ideb": "6,2",
+          "alfa_pct": "96,8%"
+        },
+        "hidden_attr": "san_pct",
+        "challenge": {
+          "formula": "(15 × 6) + 1,8",
+          "unit": "%",
+          "result_str": "91,8%"
+        }
+      },
+      {
+        "id": 4320578,
+        "nome": "Sete de Setembro",
+        "regiao": "Missões",
+        "pop": 1830,
+        "area": 129,
+        "atrativo": "Cascata do Rio Comandaí",
+        "img": "https://www.portaldasmissoes.com.br/uploads/imagens/0000103_regular_portal-das-missoes-sete-de-setembro-igreja-sao-roque-0).jpg",
+        "legenda": "O Plano Municipal de Saneamento Básico de Sete de Setembro identifica o Rio Comandaí e suas quedas d'água como a principal referência hidrográfica do município.",
+        "attrs": {
+          "veg_ha": "2.650 ha",
+          "san_pct": "76,0%",
+          "pib_mil": "R$ 49,1 mil",
+          "ideb": "6,7",
+          "alfa_pct": "95,6%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "(1,8 × 3) + 1,3",
+          "unit": "pts",
+          "result_str": "6,7"
+        }
+      },
+      {
+        "id": 4318903,
+        "nome": "São Luiz Gonzaga",
+        "regiao": "Missões",
+        "pop": 34752,
+        "area": 1296,
+        "atrativo": "Igreja Matriz de São Luiz Gonzaga",
+        "img": "https://sp1-object.adentro.com.br/sites/470/Conteudos/820/fpw8668qxc9rh9h3gyyh_Imagem_7_234O..JPG",
+        "legenda": "A página oficial de São Luiz Gonzaga registra que a torre da matriz tem 48 metros de altura e abriga imagens sacras missioneiras em madeira.",
+        "attrs": {
+          "veg_ha": "25.200 ha",
+          "san_pct": "86,4%",
+          "pib_mil": "R$ 43,0 mil",
+          "ideb": "6,3",
+          "alfa_pct": "95,7%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "(3/5 de 40.000) + 1.200",
+          "unit": "ha",
+          "result_str": "25.200 ha"
+        }
+      },
+      {
+        "id": 4319158,
+        "nome": "São Miguel das Missões",
+        "regiao": "Missões",
+        "pop": 7056,
+        "area": 1228,
+        "atrativo": "Ruínas de São Miguel Arcanjo",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/b/b3/S%C3%ADtio_Arqueol%C3%B3gico_de_S%C3%A3o_Miguel_Arcanjo_%28Ru%C3%ADnas_de_S%C3%A3o_Miguel_das_Miss%C3%B5es%29.jpg",
+        "legenda": "O IPHAN registra o sítio arqueológico como Patrimônio Mundial pela UNESCO, destacando a antiga igreja barroca do arquiteto Gian Battista Primoli.",
+        "attrs": {
+          "veg_ha": "29.800 ha",
+          "san_pct": "72,0%",
+          "pib_mil": "R$ 67,9 mil",
+          "ideb": "6,6",
+          "alfa_pct": "94,1%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "(3/4 de 40.000) − 200",
+          "unit": "ha",
+          "result_str": "29.800 ha"
+        }
+      },
+      {
+        "id": 4319208,
+        "nome": "São Nicolau",
+        "regiao": "Missões",
+        "pop": 5118,
+        "area": 486,
+        "atrativo": "Ruínas da Primeira Redução",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Ruinas_sao_nicolau1.jpg",
+        "legenda": "O IPHAN informa que a redução foi fundada em 1626 pelo padre Roque González e reúne vestígios da primeira ocupação missioneira no atual território gaúcho.",
+        "attrs": {
+          "veg_ha": "12.900 ha",
+          "san_pct": "75,2%",
+          "pib_mil": "R$ 44,8 mil",
+          "ideb": "6,3",
+          "alfa_pct": "94,3%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "110² + 800",
+          "unit": "ha",
+          "result_str": "12.900 ha"
+        }
+      },
+      {
+        "id": 4319307,
+        "nome": "São Paulo das Missões",
+        "regiao": "Missões",
+        "pop": 5846,
+        "area": 224,
+        "atrativo": "Pórtico da Família Agricultora",
+        "img": "https://portaldasmissoes.com.br/uploads/empreendimentos/0001215_regular_regiao-das-missoes-sao-paulo-das-missoes-portico-fone-prefeitura-br0318-regiao-missioneira.jpg",
+        "legenda": "A página turística regional situa o pórtico na RS-307 e o associa à homenagem aos pioneiros e à agricultura familiar local.",
+        "attrs": {
+          "veg_ha": "4.900 ha",
+          "san_pct": "77,8%",
+          "pib_mil": "R$ 48,5 mil",
+          "ideb": "7,2",
+          "alfa_pct": "96,2%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "(3,5 × 2) + 0,2",
+          "unit": "pts",
+          "result_str": "7,2"
+        }
+      },
+      {
+        "id": 4319372,
+        "nome": "São Pedro do Butiá",
+        "regiao": "Missões",
+        "pop": 3070,
+        "area": 108,
+        "atrativo": "Monumento a São Pedro",
+        "img": "https://sp1-object.adentro.com.br/sites/1720/PontosTuristicos/2017680/1c3espr8gztjwzdmko6f_23cba90547b1c344caa2192f043d3364.jpeg",
+        "legenda": "A página municipal de turismo de São Pedro do Butiá informa que o monumento tem 30 metros de altura e integra o Centro Germânico Missioneiro.",
+        "attrs": {
+          "veg_ha": "1.950 ha",
+          "san_pct": "84,2%",
+          "pib_mil": "R$ 59,4 mil",
+          "ideb": "7,1",
+          "alfa_pct": "97,3%"
+        },
+        "hidden_attr": "alfa_pct",
+        "challenge": {
+          "formula": "100 − (3 × 0,9)",
+          "unit": "%",
+          "result_str": "97,3%"
+        }
+      },
+      {
+        "id": 4322343,
+        "nome": "Ubiretama",
+        "regiao": "Missões",
+        "pop": 1994,
+        "area": 126,
+        "atrativo": "Cachoeira das Laranjeiras",
+        "img": "https://portaldasmissoes.com.br/uploads/empreendimentos/0001112_regular_img_2945.jpg",
+        "legenda": "A página turística regional identifica a Cachoeira das Laranjeiras, na localidade de Laranjeira, como a principal referência de natureza e ecoturismo de Ubiretama.",
+        "attrs": {
+          "veg_ha": "2.800 ha",
+          "san_pct": "74,0%",
+          "pib_mil": "R$ 50,2 mil",
+          "ideb": "7,1",
+          "alfa_pct": "95,0%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "(15 × 0,4) + 1,1",
+          "unit": "pts",
+          "result_str": "7,1"
+        }
+      },
+      {
+        "id": 4323754,
+        "nome": "Vitória das Missões",
+        "regiao": "Missões",
+        "pop": 3260,
+        "area": 258,
+        "atrativo": "Praça Municipal 20 de Março",
+        "img": "https://www.portaldasmissoes.com.br/uploads/empreendimentos/516/0117377_regular_altar-da-patria-centro-de-cultura-praca-municipal-20-de-marco-de-vitoria-das-missoes-rs--(5).jpg",
+        "legenda": "Situada no centro de Vitória das Missões, a Praça 20 de Março abriga o Altar da Pátria e o Centro Municipal de Cultura em meio a jardins arborizados. É o coração comunitário da cidade, palco de celebrações cívicas, encontros e eventos culturais.",
+        "attrs": {
+          "veg_ha": "5.600 ha",
+          "san_pct": "73,1%",
+          "pib_mil": "R$ 47,6 mil",
+          "ideb": "6,9",
+          "alfa_pct": "94,8%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "(2,5 × 2) + 1,9",
+          "unit": "pts",
+          "result_str": "6,9"
+        }
+      },
+      {
+        "id": 4317202,
+        "nome": "Santa Rosa",
+        "regiao": "Fronteira Noroeste",
+        "pop": 76963,
+        "area": 489,
+        "atrativo": "Memorial Casa da Xuxa",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Museu_Casa_da_Xuxa_-_Santa_Rosa_-_RS_-_Brazil.JPG",
+        "legenda": "A Prefeitura de Santa Rosa divulga a residência onde nasceu a apresentadora Xuxa Meneghel como memorial cultural inaugurado em 2002.",
+        "attrs": {
+          "veg_ha": "6.800 ha",
+          "san_pct": "92,5%",
+          "pib_mil": "R$ 50,5 mil",
+          "ideb": "6,9",
+          "alfa_pct": "97,6%"
+        },
+        "hidden_attr": "san_pct",
+        "challenge": {
+          "formula": "(18 × 5) + 2,5",
+          "unit": "%",
+          "result_str": "92,5%"
+        }
+      },
+      {
+        "id": 4321832,
+        "nome": "Três de Maio",
+        "regiao": "Fronteira Noroeste",
+        "pop": 24916,
+        "area": 421,
+        "atrativo": "Igreja Matriz N. Sra. da Conceição",
+        "img": "https://portaldasmissoes.com/uploads/empreendimentos/0002250_regular_paroquia-nossa-senhora-da-conceicao-tres-de-maio-igreja-matriz-igreja-catolica-tre-de-maio-rs-(16).jpg",
+        "legenda": "A página turística regional informa que a paróquia foi criada na década de 1930 e a atual igreja matriz foi inaugurada em 1942.",
+        "attrs": {
+          "veg_ha": "5.400 ha",
+          "san_pct": "89,2%",
+          "pib_mil": "R$ 61,2 mil",
+          "ideb": "6,7",
+          "alfa_pct": "97,8%"
+        },
+        "hidden_attr": "alfa_pct",
+        "challenge": {
+          "formula": "100 − (4 × 0,55)",
+          "unit": "%",
+          "result_str": "97,8%"
+        }
+      },
+      {
+        "id": 4309605,
+        "nome": "Horizontina",
+        "regiao": "Fronteira Noroeste",
+        "pop": 18851,
+        "area": 230,
+        "atrativo": "Memorial da Evolução Agrícola (MEA)",
+        "img": "https://cdn.prod.website-files.com/6565f5488290853d5c932b76/67ee7dc486556ce735cf12ce_banner-blog.webp",
+        "legenda": "O Memorial da Evolução Agrícola (MEA) é um complexo cultural e educativo moderno que narra a transformação do trabalho no campo e a industrialização regional. O espaço celebra a identidade de Horizontina como o Berço Nacional das Colheitadeiras Automotrizes.",
+        "attrs": {
+          "veg_ha": "4.850 ha",
+          "san_pct": "90,4%",
+          "pib_mil": "R$ 90,1 mil",
+          "ideb": "7,2",
+          "alfa_pct": "97,5%"
+        },
+        "hidden_attr": "pib_mil",
+        "challenge": {
+          "formula": "(12 × 7,5) + 0,1",
+          "unit": "mil R$",
+          "result_str": "R$ 90,1 mil"
+        }
+      },
+      {
+        "id": 4317905,
+        "nome": "Santo Cristo",
+        "regiao": "Fronteira Noroeste",
+        "pop": 15320,
+        "area": 367,
+        "atrativo": "Pórtico de Entrada da Cidade",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Santo_Cristo_RS.jpg",
+        "legenda": "O pórtico de entrada de Santo Cristo dá as boas-vindas aos visitantes e destaca o município na produção leiteira e tradição comunitária.",
+        "attrs": {
+          "veg_ha": "6.200 ha",
+          "san_pct": "85,0%",
+          "pib_mil": "R$ 55,3 mil",
+          "ideb": "6,7",
+          "alfa_pct": "97,1%"
+        },
+        "hidden_attr": "alfa_pct",
+        "challenge": {
+          "formula": "(14 × 7) − 0,9",
+          "unit": "%",
+          "result_str": "97,1%"
+        }
+      },
+      {
+        "id": 4322202,
+        "nome": "Tuparendi",
+        "regiao": "Fronteira Noroeste",
+        "pop": 8363,
+        "area": 308,
+        "atrativo": "Gruta N. Sra. de Lourdes em Cinquentenário",
+        "img": "https://www.portaldasmissoes.com.br/uploads/noticias/0000964_regular_gruta-de-lurdes-sao-luiz-gonzaga-gruta-de-nossa-senhora-de-lurdes-lourdes-igreja-de-lourdes-fone-restaurante.jpg",
+        "legenda": "A gruta fica junto à Igreja Nossa Senhora da Saúde, em Cinquentenário, e recebe peregrinos em celebrações religiosas do município.",
+        "attrs": {
+          "veg_ha": "4.700 ha",
+          "san_pct": "83,5%",
+          "pib_mil": "R$ 53,7 mil",
+          "ideb": "6,4",
+          "alfa_pct": "96,4%"
+        },
+        "hidden_attr": "san_pct",
+        "challenge": {
+          "formula": "(15 × 5,5) + 1",
+          "unit": "%",
+          "result_str": "83,5%"
+        }
+      },
+      {
+        "id": 4302204,
+        "nome": "Boa Vista do Buricá",
+        "regiao": "Fronteira Noroeste",
+        "pop": 6966,
+        "area": 110,
+        "atrativo": "Paróquia São José",
+        "img": "https://www.portaldasmissoes.com.br/uploads/empreendimentos/2176/0122775_regular_paroquia-sao-jose--boa-vista-do-burica_-51.jpg",
+        "legenda": "A igreja matriz fica na Avenida São José, no centro de Boa Vista do Buricá, com histórico vinculado à colonização da bacia do Buricá.",
+        "attrs": {
+          "veg_ha": "2.100 ha",
+          "san_pct": "86,0%",
+          "pib_mil": "R$ 57,8 mil",
+          "ideb": "6,8",
+          "alfa_pct": "97,0%"
+        },
+        "hidden_attr": "san_pct",
+        "challenge": {
+          "formula": "(12 × 7) + 2",
+          "unit": "%",
+          "result_str": "86,0%"
+        }
+      },
+      {
+        "id": 4310207,
+        "nome": "Independência",
+        "regiao": "Fronteira Noroeste",
+        "pop": 6427,
+        "area": 358,
+        "atrativo": "Praça Municipal João Saffi",
+        "img": "https://portalfronteiranoroeste.com.br/wp-content/uploads/2024/01/Praca-Joao-Saffi-em-independencia-3-scaled.jpg",
+        "legenda": "A praça central João Saffi é o principal espaço público de lazer e eventos comunitários no perímetro urbano de Independência.",
+        "attrs": {
+          "veg_ha": "5.300 ha",
+          "san_pct": "81,0%",
+          "pib_mil": "R$ 49,5 mil",
+          "ideb": "6,1",
+          "alfa_pct": "95,8%"
+        },
+        "hidden_attr": "san_pct",
+        "challenge": {
+          "formula": "(15 × 5) + 6",
+          "unit": "%",
+          "result_str": "81,0%"
+        }
+      },
+      {
+        "id": 4304200,
+        "nome": "Cândido Godói",
+        "regiao": "Fronteira Noroeste",
+        "pop": 6294,
+        "area": 247,
+        "atrativo": "Fonte da Fertilidade",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzSOkU3jmgppIa5udzQoBLuNiD3DuZydJcscKHp8RxZRu3QkzUvbl6I6M&s=10",
+        "legenda": "A Fonte da Fertilidade conecta o imaginário popular às pesquisas científicas que tornaram Cândido Godói mundialmente conhecida como a Terra dos Gêmeos. O ponto atrai curiosos e turistas interessados nos mistérios e na elevada taxa de nascimentos gemelares locais.",
+        "attrs": {
+          "veg_ha": "4.100 ha",
+          "san_pct": "82,5%",
+          "pib_mil": "R$ 54,0 mil",
+          "ideb": "7,4",
+          "alfa_pct": "96,9%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "10 − (1,3 × 2)",
+          "unit": "pts",
+          "result_str": "7,4"
+        }
+      },
+      {
+        "id": 4300307,
+        "nome": "Alecrim",
+        "regiao": "Fronteira Noroeste",
+        "pop": 6123,
+        "area": 316,
+        "atrativo": "Monumento ao Dourado e São Miguel",
+        "img": "https://portaldasmissoes.com.br/uploads/empreendimentos/2185/0122913_regular_monumento-ao-dourado-alecrim-rs-sao-miguel-(4).jpg",
+        "legenda": "A página turística regional situa o monumento em Linha São Miguel, comemorando a tradição da pesca do peixe dourado no Rio Uruguai.",
+        "attrs": {
+          "veg_ha": "8.200 ha",
+          "san_pct": "76,5%",
+          "pib_mil": "R$ 46,8 mil",
+          "ideb": "7,0",
+          "alfa_pct": "95,4%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "(2/5 de 20.000) + 200",
+          "unit": "ha",
+          "result_str": "8.200 ha"
+        }
+      },
+      {
+        "id": 4303806,
+        "nome": "Campina das Missões",
+        "regiao": "Fronteira Noroeste",
+        "pop": 5882,
+        "area": 225,
+        "atrativo": "Praça Russa São Vladimir",
+        "img": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9T-u99JariFKcPZZGXLil1YmaeFLfMkAKsKuk2byQ3tUpes_ufUhyccZJwGmZbhAChnvBqVJhsah3vFqVLnH0KGXxBze5DJ-Oked69HeHpMU7cyBPjeyYP3uMaCaSQFqWeRzwE=s1360-w1360-h1020-rw",
+        "legenda": "A Praça São Vladimir homenageia os pioneiros eslavos e abriga a primeira capela ortodoxa russa erguida em praça pública no Brasil. O local é o principal símbolo da cultura russa na cidade e sedia tradicionais festividades religiosas e folclóricas.",
+	"attrs": {
+          "veg_ha": "3.900 ha",
+          "san_pct": "80,5%",
+          "pib_mil": "R$ 52,0 mil",
+          "ideb": "7,1",
+          "alfa_pct": "96,7%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "(3 × 2,2) + 0,5",
+          "unit": "pts",
+          "result_str": "7,1"
+        }
+      },
+      {
+        "id": 4322103,
+        "nome": "Tucunduva",
+        "regiao": "Fronteira Noroeste",
+        "pop": 5542,
+        "area": 181,
+        "atrativo": "Praça Alcides Chitolina",
+        "img": "https://portalfronteiranoroeste.com.br/wp-content/uploads/2024/02/Praca-Alcides-Chitolina-33.webp",
+        "legenda": "A Praça Alcides Chitolina é o centro de convivência e encontros culturais da comunidade de Tucunduva, terra do músico Tio Bilia.",
+        "attrs": {
+          "veg_ha": "2.950 ha",
+          "san_pct": "85,8%",
+          "pib_mil": "R$ 54,6 mil",
+          "ideb": "6,9",
+          "alfa_pct": "96,8%"
+        },
+        "hidden_attr": "san_pct",
+        "challenge": {
+          "formula": "(14 × 6) + 1,8",
+          "unit": "%",
+          "result_str": "85,8%"
+        }
+      },
+      {
+        "id": 4306759,
+        "nome": "Doutor Maurício Cardoso",
+        "regiao": "Fronteira Noroeste",
+        "pop": 4470,
+        "area": 256,
+        "atrativo": "Balneários do Rio Uruguai",
+        "img": "https://files.manuscdn.com/search-media/310519663169820208/kfb6MeNtvCWCnreXnPU52u/YDjai9hVtNjPryYDPDN4ah.JPG",
+        "legenda": "A página turística de Doutor Maurício Cardoso destaca os balneários Londero e Ilhas do Chafariz no Rio Uruguai para veraneio e pesca.",
+        "attrs": {
+          "veg_ha": "6.400 ha",
+          "san_pct": "78,0%",
+          "pib_mil": "R$ 51,0 mil",
+          "ideb": "6,8",
+          "alfa_pct": "95,9%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "(3/5 de 10.000) + 400",
+          "unit": "ha",
+          "result_str": "6.400 ha"
+        }
+      },
+      {
+        "id": 4314902,
+        "nome": "Porto Lucena",
+        "regiao": "Fronteira Noroeste",
+        "pop": 4360,
+        "area": 251,
+        "atrativo": "Vista Aérea do Rio Uruguai",
+        "img": "https://files.manuscdn.com/search-media/310519663169820208/kfb6MeNtvCWCnreXnPU52u/U7DfZEKrNarL7AUD6fj9SY.jpg",
+        "legenda": "O Rio Uruguai em Porto Lucena forma curvas acentuadas e abriga a Ilha Grande, com extensão longitudinal de mais de 6 quilômetros.",
+        "attrs": {
+          "veg_ha": "8.050 ha",
+          "san_pct": "77,2%",
+          "pib_mil": "R$ 45,8 mil",
+          "ideb": "6,5",
+          "alfa_pct": "95,0%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "90² − 50",
+          "unit": "ha",
+          "result_str": "8.050 ha"
+        }
+      },
+      {
+        "id": 4300455,
+        "nome": "Alegria",
+        "regiao": "Fronteira Noroeste",
+        "pop": 3651,
+        "area": 173,
+        "atrativo": "Cascata do Lajeado Engenho",
+        "img": "https://portaldasmissoes.com.br/uploads/empreendimentos/0002167_regular_cascata-do-engenho-alegria-rs-(22).jpg",
+        "legenda": "A página turística regional situa a cascata no Lajeado Engenho, a cerca de 2,5 km da sede municipal de Alegria.",
+        "attrs": {
+          "veg_ha": "3.400 ha",
+          "san_pct": "79,8%",
+          "pib_mil": "R$ 48,0 mil",
+          "ideb": "6,9",
+          "alfa_pct": "96,1%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "(1,5 × 4) + 0,9",
+          "unit": "pts",
+          "result_str": "6,9"
+        }
+      },
+      {
+        "id": 4313425,
+        "nome": "Novo Machado",
+        "regiao": "Fronteira Noroeste",
+        "pop": 3198,
+        "area": 219,
+        "atrativo": "Balneário Corredeira",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Z78bUy6WvumAvlywI3JCKRyEwG3jo3xUjbY87fQ3ZqF9IidddGZea4OU&s=10",
+        "legenda": "O Balneário Corredeira é um dos recantos naturais mais frequentados de Novo Machado, marcado pelo leito pedregoso e corredeiras de águas limpas. O espaço oferece lazer sossegado junto à vegetação nativa, valorizando o ecoturismo na bacia do Uruguai.",
+        "attrs": {
+          "veg_ha": "5.100 ha",
+          "san_pct": "78,4%",
+          "pib_mil": "R$ 50,8 mil",
+          "ideb": "6,9",
+          "alfa_pct": "95,7%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "(9² ÷ 10) − 1,2",
+          "unit": "pts",
+          "result_str": "6,9"
+        }
+      },
+      {
+        "id": 4313037,
+        "nome": "Nova Candelária",
+        "regiao": "Fronteira Noroeste",
+        "pop": 3061,
+        "area": 98,
+        "atrativo": "Centro e Paróquia N. Sra. da Purificação",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Centro-nova-candelaria-rs-bra.jpg",
+        "legenda": "A paróquia católica foi criada em 1963 e constitui um dos marcos da organização urbana central de Nova Candelária.",
+        "attrs": {
+          "veg_ha": "1.550 ha",
+          "san_pct": "87,2%",
+          "pib_mil": "R$ 61,4 mil",
+          "ideb": "7,1",
+          "alfa_pct": "97,4%"
+        },
+        "hidden_attr": "alfa_pct",
+        "challenge": {
+          "formula": "100 − (5 × 0,52)",
+          "unit": "%",
+          "result_str": "97,4%"
+        }
+      },
+      {
+        "id": 4320453,
+        "nome": "Senador Salgado Filho",
+        "regiao": "Fronteira Noroeste",
+        "pop": 2673,
+        "area": 147,
+        "atrativo": "Praça dos Imigrantes",
+        "img": "https://portalfronteiranoroeste.com.br/wp-content/uploads/2024/01/Praca-dos-Imigrantes-de-Senador-Salgado-Filho4.webp",
+        "legenda": "A página turística regional registra a Praça dos Imigrantes como espaço memorial aos colonizadores que ocuparam a área a partir de 1906.",
+        "attrs": {
+          "veg_ha": "2.400 ha",
+          "san_pct": "81,5%",
+          "pib_mil": "R$ 53,2 mil",
+          "ideb": "7,5",
+          "alfa_pct": "96,3%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "3/4 de 10",
+          "unit": "pts",
+          "result_str": "7,5"
+        }
+      },
+      {
+        "id": 4318622,
+        "nome": "São José do Inhacorá",
+        "regiao": "Fronteira Noroeste",
+        "pop": 2406,
+        "area": 78,
+        "atrativo": "Santuário Parque São Francisco de Assis",
+        "img": "https://portaldasmissoes.com.br/uploads/empreendimentos/2212/0123434_regular_santuario-parque-sao-francisco-de-assis-(83).jpg",
+        "legenda": "Conhecido como Calvário, é um amplo parque de devoção ao ar livre concebido em 1978 com estações sacras, presépio e trilhas arborizadas.",
+        "attrs": {
+          "veg_ha": "1.600 ha",
+          "san_pct": "86,8%",
+          "pib_mil": "R$ 58,6 mil",
+          "ideb": "7,1",
+          "alfa_pct": "97,2%"
+        },
+        "hidden_attr": "ideb",
+        "challenge": {
+          "formula": "(2,5 × 2) + 2,1",
+          "unit": "pts",
+          "result_str": "7,1"
+        }
+      },
+      {
+        "id": 4315073,
+        "nome": "Porto Mauá",
+        "regiao": "Fronteira Noroeste",
+        "pop": 2142,
+        "area": 106,
+        "atrativo": "Porto Internacional de Porto Mauá",
+        "img": "https://portalfronteiranoroeste.com.br/wp-content/uploads/2024/02/orla-de-porto-maua-rio-uruguai-74-1024x683.jpg",
+        "legenda": "Situado às margens do Rio Uruguai, o Porto Internacional é o terminal alfandegado por onde trafegam as balsas diárias ligando o Brasil a Alba Posse, na Argentina.",
+        "attrs": {
+          "veg_ha": "2.750 ha",
+          "san_pct": "82,0%",
+          "pib_mil": "R$ 51,8 mil",
+          "ideb": "6,1",
+          "alfa_pct": "96,0%"
+        },
+        "hidden_attr": "san_pct",
+        "challenge": {
+          "formula": "(16 × 5) + 2",
+          "unit": "%",
+          "result_str": "82,0%"
+        }
+      },
+      {
+        "id": 4315131,
+        "nome": "Porto Vera Cruz",
+        "regiao": "Fronteira Noroeste",
+        "pop": 1560,
+        "area": 114,
+        "atrativo": "Rio Uruguai ao Entardecer",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Final_de_tarde_em_Porto_Vera_Cruz_%287054300759%29.jpg",
+        "legenda": "O Rio Uruguai em Porto Vera Cruz marca a divisa com a Argentina e integra as atividades pesqueiras e de lazer do município.",
+        "attrs": {
+          "veg_ha": "3.950 ha",
+          "san_pct": "75,0%",
+          "pib_mil": "R$ 35,9 mil",
+          "ideb": "6,6",
+          "alfa_pct": "94,7%"
+        },
+        "hidden_attr": "veg_ha",
+        "challenge": {
+          "formula": "(1/2 de 7.500) + 200",
+          "unit": "ha",
+          "result_str": "3.950 ha"
+        }
+      }
+    ];
+
+    const nfInt = new Intl.NumberFormat('pt-BR');
+
+    let selected = new Set(MUNICIPIOS.map(d => d.id));
+    let currentRegion = 'all';
+    let isTeacherKey = false;
+
+    function getVisibleTowns() {
+      const searchInput = document.getElementById('searchInput');
+      const q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+      return MUNICIPIOS.filter(d => {
+        const matchesQuery = !q || d.nome.toLowerCase().includes(q) || d.atrativo.toLowerCase().includes(q);
+        const matchesRegion = currentRegion === 'all' || d.regiao === currentRegion;
+        return matchesQuery && matchesRegion;
+      });
+    }
+
+    function renderTownList() {
+      const townList = document.getElementById('townList');
+      if (!townList) return;
+      const list = getVisibleTowns();
+      townList.innerHTML = list.map(d => `
+        <label class="town-item">
+          <input type="checkbox" value="${d.id}" ${selected.has(d.id) ? 'checked' : ''}>
+          <span>${d.nome}</span>
+          <span class="tag-mini ${d.regiao === 'Missões' ? 'tag-missoes' : 'tag-fronteira'}">
+            ${d.regiao === 'Missões' ? 'MIS' : 'FNO'}
+          </span>
+        </label>
+      `).join('');
+
+      const selCount = selected.size;
+      const countEl = document.getElementById('selectedCountText');
+      if (countEl) countEl.textContent = `${selCount} selecionados`;
+      const summaryEl = document.getElementById('summaryCount');
+      if (summaryEl) summaryEl.textContent = selCount;
+    }
+
+    const ATTR_CONFIG = [
+      { key: 'veg_ha', label: '1. VEGETAÇÃO NATIVA' },
+      { key: 'san_pct', label: '2. SANEAMENTO BÁSICO' },
+      { key: 'pib_mil', label: '3. PIB PER CAPITA' },
+      { key: 'ideb', label: '4. EDUCAÇÃO (IDEB)' },
+      { key: 'alfa_pct', label: '5. ALFABETIZAÇÃO' }
+    ];
+
+    function makeCard(d, index) {
+      const popStr = nfInt.format(d.pop);
+      const areaStr = nfInt.format(Math.round(d.area));
+      const fallbackUrl = makeFallbackSvg(d.nome, d.atrativo, d.regiao);
+
+      const attrBoxesHtml = ATTR_CONFIG.map(attr => {
+        const isTrunfo = (d.hidden_attr === attr.key);
+        if (isTrunfo) {
+          const challenge = d.challenge;
+          const valueContent = isTeacherKey 
+            ? `${challenge.formula} = <span class="solved-val">${challenge.result_str}</span>`
+            : `${challenge.formula} = <span class="blank-box"></span> ${challenge.unit}`;
+
+          return `
+          <div class="param-box is-trunfo">
+            <span class="param-title">${attr.label}</span>
+            <span class="param-val">${valueContent}</span>
+          </div>`;
+        } else {
+          return `
+          <div class="param-box">
+            <span class="param-title">${attr.label}</span>
+            <span class="param-val">${d.attrs[attr.key]}</span>
+          </div>`;
+        }
+      }).join('');
+
+      return `
+      <article class="card">
+        <div class="photo-container">
+          <img 
+            src="${d.img}" 
+            alt="${d.atrativo}" 
+            class="card-photo" 
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            onerror="this.onerror=null; this.src='${fallbackUrl}';"
+          >
+          <!-- Nome do Município sobre a imagem (substitui Missões/Fronteira Noroeste) -->
+          <div class="photo-town-name">${d.nome}</div>
+          <div class="overlay-id">#${String(index + 1).padStart(2, '0')}</div>
+          <!-- Localização do atrativo turístico no canto inferior -->
+          <div class="photo-caption">📍 ${d.atrativo}</div>
+        </div>
+
+        <!-- Descrição ampla e sem cortes logo abaixo da foto -->
+        <div class="card-desc">
+          ${d.legenda}
+        </div>
+
+        <div class="card-base-data">
+          <div>População: <strong>${popStr} hab</strong></div>
+          <div style="text-align: right;">Área: <strong>${areaStr} km²</strong></div>
+        </div>
+
+        <div class="param-list">
+          ${attrBoxesHtml}
+        </div>
+      </article>`;
+    }
+
+    function renderCards() {
+      const cardsGrid = document.getElementById('cardsGrid');
+      if (!cardsGrid) return;
+
+      const chosen = MUNICIPIOS.filter(d => selected.has(d.id));
+      if (!chosen.length) {
+        cardsGrid.innerHTML = '<div style="padding: 30px; text-align: center; color: var(--muted); background: white; border-radius: 0;">Nenhum município selecionado.</div>';
+        return;
+      }
+
+      let pagesHtml = '';
+      for (let i = 0; i < chosen.length; i += 9) {
+        const slice = chosen.slice(i, i + 9);
+        pagesHtml += `<div class="sheet-page">` + slice.map((d, idx) => makeCard(d, i + idx)).join('') + `</div>`;
+      }
+
+      cardsGrid.innerHTML = pagesHtml;
+
+      const cardsStatus = document.getElementById('cardsStatus');
+      if (cardsStatus) {
+        const totalPages = Math.ceil(chosen.length / 9);
+        cardsStatus.textContent = `Exibindo ${chosen.length} cartas (${totalPages} folha${totalPages === 1 ? '' : 's'} A4)`;
+      }
+
+      const modeLabel = document.getElementById('currentModeLabel');
+      if (modeLabel) {
+        modeLabel.textContent = isTeacherKey ? 'Modo: Gabarito (Resolvido)' : 'Modo: Aluno (Com lacunas)';
+        modeLabel.style.color = isTeacherKey ? 'var(--accent)' : 'var(--primary)';
+      }
+
+      renderTownList();
+    }
+
+    function setViewMode(teacherMode) {
+      isTeacherKey = teacherMode;
+      document.getElementById('btnModeStudent').classList.toggle('active', !teacherMode);
+      document.getElementById('btnModeTeacher').classList.toggle('active', teacherMode);
+      renderCards();
+    }
+
+    function executePrint(forTeacher) {
+      if (!selected.size) {
+        alert('Selecione pelo menos um município.');
+        return;
+      }
+      isTeacherKey = forTeacher;
+      setViewMode(forTeacher);
+
+      try {
+        if (typeof window.print === 'function') {
+          window.print();
+        } else {
+          showMobileModal();
+        }
+      } catch (err) {
+        console.warn('Erro ao chamar window.print():', err);
+        showMobileModal();
+      }
+    }
+
+    function showMobileModal() {
+      const modal = document.getElementById('mobileHelpModal');
+      if (modal) modal.classList.add('open');
+    }
+
+    function init() {
+      const townList = document.getElementById('townList');
+      if (townList) {
+        townList.addEventListener('change', e => {
+          if (!e.target.matches('input[type="checkbox"]')) return;
+          const id = Number(e.target.value);
+          if (e.target.checked) selected.add(id); else selected.delete(id);
+          renderCards();
+        });
+      }
+
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          renderTownList();
+        });
+      }
+
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          currentRegion = tab.dataset.filter;
+          renderCards();
+        });
+      });
+
+      const btnSelectAll = document.getElementById('btnSelectAll');
+      if (btnSelectAll) {
+        btnSelectAll.addEventListener('click', () => {
+          getVisibleTowns().forEach(d => selected.add(d.id));
+          renderCards();
+        });
+      }
+
+      const btnClearAll = document.getElementById('btnClearAll');
+      if (btnClearAll) {
+        btnClearAll.addEventListener('click', () => {
+          getVisibleTowns().forEach(d => selected.delete(d.id));
+          renderCards();
+        });
+      }
+
+      const btnModeStudent = document.getElementById('btnModeStudent');
+      if (btnModeStudent) btnModeStudent.addEventListener('click', () => setViewMode(false));
+
+      const btnModeTeacher = document.getElementById('btnModeTeacher');
+      if (btnModeTeacher) btnModeTeacher.addEventListener('click', () => setViewMode(true));
+
+      const btnScroll = document.getElementById('btnScrollToCards');
+      if (btnScroll) {
+        btnScroll.addEventListener('click', () => {
+          const grid = document.getElementById('cardsGrid');
+          if (grid) grid.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+
+      const btnPrintStudents = document.getElementById('btnPrintStudents');
+      if (btnPrintStudents) {
+        btnPrintStudents.addEventListener('click', () => executePrint(false));
+      }
+
+      const btnPrintKey = document.getElementById('btnPrintKey');
+      if (btnPrintKey) {
+        btnPrintKey.addEventListener('click', () => executePrint(true));
+      }
+
+      const btnCloseModal = document.getElementById('btnCloseModal');
+      if (btnCloseModal) {
+        btnCloseModal.addEventListener('click', () => {
+          const modal = document.getElementById('mobileHelpModal');
+          if (modal) modal.classList.remove('open');
+        });
+      }
+
+      window.addEventListener('afterprint', () => {
+        setViewMode(false);
+      });
+
+      renderCards();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+</html>
